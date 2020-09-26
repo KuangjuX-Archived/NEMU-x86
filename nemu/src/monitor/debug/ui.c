@@ -106,7 +106,7 @@ static int cmd_si(char *args){
 
 		printf("0x%08x: ",start_address);
 		for(i=1;i<=n;i++){
-			printf("0x%08x",swaddr_read(start_address,4));
+			printf("0x%08x\n",swaddr_read(start_address,4));
 			start_address+=4;
 		}
 
