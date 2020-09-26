@@ -27,6 +27,22 @@ char* rl_gets() {
 	return line_read;
 }
 
+void printRegisters(){
+	printf("eax: 0x%-10x  %-10d\n", cpu.eax, cpu.eax);
+	printf("edx: 0x%-10x  %-10d\n", cpu.edx, cpu.edx);
+	printf("ecx: 0x%-10x  %-10d\n", cpu.ecx, cpu.ecx);
+	printf("ebx: 0x%-10x  %-10d\n", cpu.ebx, cpu.ebx);
+	printf("ebp: 0x%-10x  %-10d\n", cpu.ebp, cpu.ebp);
+	printf("esi: 0x%-10x  %-10d\n", cpu.esi, cpu.esi);
+	printf("esp: 0x%-10x  %-10d\n", cpu.esp, cpu.esp);
+	printf("eip: 0x%-10x  %-10d\n", cpu.eip, cpu.eip);
+
+}
+
+void display_wp(){
+	printf("hello");
+}
+
 static int cmd_c(char *args) {
 	cpu_exec(-1);
 	return 0;
@@ -38,6 +54,83 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+static int cmd_si(char *args){
+	//initliza the step
+	int step = 0;
+	if(args == NULL)step=1;
+	else
+	{
+		sscanf(args,"%d",&step);
+
+	}
+	cpu_exec(step);
+	return 0;
+	
+}
+
+ static int cmd_info(char *args){
+	if(args == NULL){
+		printf("Please input the info r or info w\n");
+	
+	}else if(args[0] == 'r'){
+		printRegisters();
+	}else if(args[0] == 'w'){
+		display_wp();
+	}else
+	{
+		printf("The info command need a parameter 'r' or 'w'\n");
+	}
+	return 0;
+	
+	
+	 
+ }
+
+ static int cmd_x(char *args){
+	 if(args == NULL){
+		 printf("Input invalid command!\n");
+		 return 1;
+	 }else
+	 {
+		int n;
+		swaddr_t start_address;
+		int i;
+		bool suc;
+		char* cmd = strtok(args, " ");
+		sscanf(cmd,"%d",&n);
+		args = cmd+strlen(cmd)+1;
+		start_address = expr(args, &suc);
+		if(!suc){
+			assert(1);
+		}
+
+		printf("0x%08x: ",start_address);
+		for(i=1;i<=n;i++){
+			printf("0x%08x",swaddr_read(start_address,4));
+			start_address+=4;
+		}
+
+		printf("\n");
+		return 0;
+			
+	 }
+
+	
+	 
+ }
+
+// static int cmd_p(char *args);
+
+// static int cmd_w(char *args);
+
+// static int cmd_b(char *args);
+
+// static int cmd_d(char *args);
+
+// static int cmd_bt(char *args);
+
+// static int cmd_cache(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -48,6 +141,17 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
+	/*Now start to write dbq!!! 9.26*/
+
+	{ "si", "Step into implementation of N instructions after the suspension of execution.When N is notgiven,the default is 1.", cmd_si},
+	{ "info", "r for print register state \n w for print watchpoint information", cmd_info},
+	// { "b", "Breakpoint + *ADDR.", cmd_b},
+	// { "p", "Expression evaluation", cmd_p},
+	{ "x", "Calculate the value of the expression and regard the result as the starting memory address.", cmd_x},
+	// { "w", "Stop the execution of the program if the result of the expression has changed.", cmd_w},
+	// { "d", "Delete the Nth watchpoint", cmd_d},
+	// { "bt", "Print stack frame chain", cmd_bt},
+	// { "cache", "Print cache block infomation", cmd_cache}
 
 };
 
