@@ -38,6 +38,24 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
+// static int cmd_si(char *args);
+
+// static int cmd_info(char *args);
+
+// static int cmd_x(char *args);
+
+// static int cmd_p(char *args);
+
+// static int cmd_w(char *args);
+
+// static int cmd_b(char *args);
+
+// static int cmd_d(char *args);
+
+// static int cmd_bt(char *args);
+
+// static int cmd_cache(char *args);
+
 static struct {
 	char *name;
 	char *description;
@@ -48,6 +66,17 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 
 	/* TODO: Add more commands */
+	/*Now start to write dbq!!! 9.26*/
+
+	// { "si", "Step into implementation of N instructions after the suspension of execution.When N is notgiven,the default is 1.", cmd_si},
+	// { "info", "r for print register state \n w for print watchpoint information", cmd_info},
+	// { "b", "Breakpoint + *ADDR.", cmd_b},
+	// { "p", "Expression evaluation", cmd_p},
+	// { "x", "Calculate the value of the expression and regard the result as the starting memory address.", cmd_x},
+	// { "w", "Stop the execution of the program if the result of the expression has changed.", cmd_w},
+	// { "d", "Delete the Nth watchpoint", cmd_d},
+	// { "bt", "Print stack frame chain", cmd_bt},
+	// { "cache", "Print cache block infomation", cmd_cache}
 
 };
 
