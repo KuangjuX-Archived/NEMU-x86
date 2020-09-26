@@ -86,7 +86,25 @@ static int cmd_si(char *args){
 	 
  }
 
-// static int cmd_x(char *args);
+ static int cmd_x(char *args){
+	 if(args == NULL){
+		 printf("Input invalid command!\n");
+	 }else
+	 {
+		 int num,addr,i;
+		 char *exp;
+		 num = atoi(strtok(NULL, " "));
+		 exp = strtok(NULL, " ");
+		 addr = trans(exp);
+		 for(i=0; i<num;i++){
+			 printf("0x%x\n",vaddr_read(addr,4));
+			 addr+=4;
+		 }
+	 }
+	return 0;
+	
+	 
+ }
 
 // static int cmd_p(char *args);
 
@@ -116,7 +134,7 @@ static struct {
 	{ "info", "r for print register state \n w for print watchpoint information", cmd_info},
 	// { "b", "Breakpoint + *ADDR.", cmd_b},
 	// { "p", "Expression evaluation", cmd_p},
-	// { "x", "Calculate the value of the expression and regard the result as the starting memory address.", cmd_x},
+	{ "x", "Calculate the value of the expression and regard the result as the starting memory address.", cmd_x},
 	// { "w", "Stop the execution of the program if the result of the expression has changed.", cmd_w},
 	// { "d", "Delete the Nth watchpoint", cmd_d},
 	// { "bt", "Print stack frame chain", cmd_bt},
