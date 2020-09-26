@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 
+//define a cpu
 CPU_state cpu;
 
 const char *regsl[] = {"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"};
