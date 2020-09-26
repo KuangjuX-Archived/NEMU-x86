@@ -140,7 +140,20 @@ static int cmd_si(char *args){
 	
 }
 
-// static int cmd_p(char *args);
+static int cmd_p(char *args){
+	uint32_t num;
+	bool success;
+	num = expr(args,&success);
+	if(success){
+		printf("0x%x:\t%d\n",num,num);
+	}else
+	{
+		assert(0);
+	}
+
+	return 0;
+	
+}
 
 // static int cmd_w(char *args);
 
@@ -167,7 +180,7 @@ static struct {
 	{ "si", "Step into implementation of N instructions after the suspension of execution.When N is notgiven,the default is 1.", cmd_si},
 	{ "info", "r for print register state \n w for print watchpoint information", cmd_info},
 	// { "b", "Breakpoint + *ADDR.", cmd_b},
-	// { "p", "Expression evaluation", cmd_p},
+	{ "p", "Expression evaluation", cmd_p},
 	{ "x", "Calculate the value of the expression and regard the result as the starting memory address.", cmd_x},
 	// { "w", "Stop the execution of the program if the result of the expression has changed.", cmd_w},
 	// { "d", "Delete the Nth watchpoint", cmd_d},
