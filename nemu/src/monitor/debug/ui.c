@@ -87,37 +87,58 @@ static int cmd_si(char *args){
  }
 
  static int cmd_x(char *args){
-	 if(args == NULL){
-		 printf("Input invalid command!\n");
-		 return 1;
-	 }else
-	 {
-		int n;
-		swaddr_t start_address;
-		int i;
-		bool suc;
-		char* cmd = strtok(args, " ");
-		sscanf(cmd,"%d",&n);
-		args = cmd+strlen(cmd)+1;
-		start_address = expr(args, &suc);
-		if(!suc){
-			assert(1);
-		}
-
-		printf("0x%08x: ",start_address);
-		for(i=1;i<=n;i++){
-			printf("0x%08x\n",swaddr_read(start_address,4));
-			start_address+=4;
-		}
-
-		printf("\n");
-		return 0;
-			
-	 }
-
 	
-	 
- }
+	if(args == NULL){
+		printf("too few parameter! \n");
+		return 1;
+	}else
+	{
+		char *arg = strtok(args, " ");
+		if(arg == NULL){
+			printf("too few parameter! \n");
+			return 1;
+		}
+
+		int n = atoi(arg);
+		char *EXPR = strtok(NULL, " ");
+		if(EXPR == NULL){
+			printf("too few parameter! \n");
+			return 1;
+		}
+
+		if(strtok(NULL, " ")!=NULL){
+			printf("too many parameter! \n");
+			return 1;
+		}
+
+		bool success = true;
+
+		if(!success){
+			printf("ERROR!\n");
+			return 1;
+		}
+
+		char *str;
+		swaddr_t addr = strtol(EXPR,&str,16);
+
+		int i;
+		for(i=0;i<n;i++){
+			uint32_t data = swaddr_read(addr+i*4,4);
+			printf("0x%08x ", addr+i*4);
+			int j;
+			for(j=0; j<4; j++){
+				printf("0x%02x ",data&0xff);
+				data = data>>8;
+			}
+			printf("\n");
+		}
+
+		return 0;
+
+
+	}
+	
+}
 
 // static int cmd_p(char *args);
 
