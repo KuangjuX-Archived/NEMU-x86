@@ -38,7 +38,19 @@ static int cmd_q(char *args) {
 
 static int cmd_help(char *args);
 
-// static int cmd_si(char *args);
+static int cmd_si(char *args){
+	//initliza the step
+	int step = 0;
+	if(args == NULL)step=1;
+	else
+	{
+		sscanf(args,"%d",&step);
+
+	}
+	cpu_exec(step);
+	return 0;
+	
+}
 
 // static int cmd_info(char *args);
 
@@ -68,7 +80,7 @@ static struct {
 	/* TODO: Add more commands */
 	/*Now start to write dbq!!! 9.26*/
 
-	// { "si", "Step into implementation of N instructions after the suspension of execution.When N is notgiven,the default is 1.", cmd_si},
+	{ "si", "Step into implementation of N instructions after the suspension of execution.When N is notgiven,the default is 1.", cmd_si},
 	// { "info", "r for print register state \n w for print watchpoint information", cmd_info},
 	// { "b", "Breakpoint + *ADDR.", cmd_b},
 	// { "p", "Expression evaluation", cmd_p},
