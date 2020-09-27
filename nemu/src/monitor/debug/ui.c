@@ -141,16 +141,16 @@ static int cmd_si(char *args){
 }
 
 static int cmd_p(char *args){
-	uint32_t num;
-	bool success;
-	num = expr(args,&success);
-	if(success){
-		printf("0x%x:\t%d\n",num,num);
-	}else
-	{
-		assert(0);
+nt cmd_p(char *args) {
+	if(args == NULL) return 0;
+	bool suc;
+	uint32_t ans = expr(args, &suc);	//fix bugs
+	if(!suc) {
+		printf("\033[1;31mInvalid expression\n\033[0m");
+		return 0;
 	}
-
+	//tokens;
+	printf("Expression %s : 0x%x\n", args, ans);
 	return 0;
 	
 }
