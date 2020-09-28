@@ -140,8 +140,7 @@ static int cmd_si(char *args){
 	
 }
 
-static int cmd_p(char *args){
-nt cmd_p(char *args) {
+static int cmd_p(char *args) {
 	if(args == NULL) return 0;
 	bool suc;
 	uint32_t ans = expr(args, &suc);	//fix bugs
@@ -152,7 +151,6 @@ nt cmd_p(char *args) {
 	//tokens;
 	printf("Expression %s : 0x%x\n", args, ans);
 	return 0;
-	
 }
 
 // static int cmd_w(char *args);
