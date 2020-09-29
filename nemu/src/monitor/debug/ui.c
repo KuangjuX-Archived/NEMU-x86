@@ -2,7 +2,6 @@
 #include "monitor/expr.h"
 #include "monitor/watchpoint.h"
 #include "nemu.h"
-#include "elf.h"
 
 #include <stdlib.h>
 #include <readline/readline.h>
@@ -41,7 +40,12 @@ void printRegisters(){
 }
 
 void display_wp(){
-	printf("hello");
+	//printf("hello");
+	WP *head = getHead();
+	while(head!=NULL){
+		printf(""watchpoint %d : %s\n", h->NO, h->expr");
+		head = head->next;
+	}
 }
 
 static int cmd_c(char *args) {
