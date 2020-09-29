@@ -179,6 +179,9 @@ static int cmd_d(char *args) {
 	return 0;
 }
 
+
+void getFunctionFromAddress(swaddr_t addr, char *s);
+
 static int cmd_bt(char *args) {
 	swaddr_t now_ebp = reg_l(R_EBP);
 	swaddr_t now_ret = cpu.eip;
