@@ -87,58 +87,28 @@ static int cmd_si(char *args){
  }
 
  static int cmd_x(char *args){
-	
-	if(args == NULL){
-		printf("too few parameter! \n");
-		return 1;
-	}else
-	{
-		char *arg = strtok(args, " ");
-		if(arg == NULL){
-			printf("too few parameter! \n");
-			return 1;
-		}
-
-		int n = atoi(arg);
-		char *EXPR = strtok(NULL, " ");
-		if(EXPR == NULL){
-			printf("too few parameter! \n");
-			return 1;
-		}
-
-		if(strtok(NULL, " ")!=NULL){
-			printf("too many parameter! \n");
-			return 1;
-		}
-
-		bool success = true;
-
-		if(!success){
-			printf("ERROR!\n");
-			return 1;
-		}
-
-		char *str;
-		swaddr_t addr = strtol(EXPR,&str,16);
-
-		int i;
-		for(i=0;i<n;i++){
-			uint32_t data = swaddr_read(addr+i*4,4);
-			printf("0x%08x ", addr+i*4);
-			int j;
-			for(j=0; j<4; j++){
-				printf("0x%02x ",data&0xff);
-				data = data>>8;
-			}
-			printf("\n");
-		}
-
+	if(args == NULL) return 0;
+	uint32_t num = 0, addr;
+	bool suc;
+	while(args[0] == ' ')++args;	//trim
+	while('0' <= args[0] && args[0] <= '9') num = (num << 3) + (num << 1) + (args[0] & 15), ++args;
+	//get number
+	addr = expr(args, &suc);
+	if(!suc) {
+		printf("\033[1;31mInvalid expression\n\033[0m");
 		return 0;
-
+	}
+	while(num) {
+		printf("address 0x%x:", addr);
+		int i;
+		for(i = 0;i < 4; i++)printf(" 0x%x", swaddr_read(addr + i, 1));
+		printf("\n");
+		addr += 4;
+		--num;
+	}
+	return 0;
 
 	}
-	
-}
 
 static int cmd_p(char *args) {
 	if(args == NULL) return 0;
