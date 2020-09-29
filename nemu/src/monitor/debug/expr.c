@@ -17,7 +17,10 @@ enum {
 	/* TODO: Add more token types */
 
 };
-const char *PRE = "04455331266600000";	//guess what?
+
+/*priority*/
+const char *PRE = "04455331266600000";
+
 static struct rule {
 	char *regex;
 	int token_type;

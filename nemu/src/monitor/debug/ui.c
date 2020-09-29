@@ -153,15 +153,54 @@ static int cmd_p(char *args) {
 	return 0;
 }
 
-// static int cmd_w(char *args);
+static int cmd_w(char *args) {
+	if(args == NULL) return 0;
+	int id = insertExpr(args);
+	if(id == -1) {
+		printf("\033[1;31mInvalid expression\n\033[0m");
+		return 0;
+	}
+	printf("Add watchpoint %d\n", id);
+	return 0;
+}
 
 // static int cmd_b(char *args);
 
-// static int cmd_d(char *args);
+static int cmd_d(char *args) {
+	if(args == NULL) return 0;
+	int id;
+	sscanf(args, "%d", &id);
+	int ans = removeNode(id);//remove a node
+	if(ans == 0) {
+		printf("\033[1;31mWatchpoint %d doesn't exist\n\033[0m", id);
+	} else {
+		printf("Delete watchpoint %d successfully\n", id);
+	}
+	return 0;
+}
 
-// static int cmd_bt(char *args);
+static int cmd_bt(char *args) {
+	swaddr_t now_ebp = reg_l(R_EBP);
+	swaddr_t now_ret = cpu.eip;
+	int cnt = 0, i;
+	char name[50];
+	while(now_ebp) {
+		getFunctionFromAddress(now_ret, name);
+		if(name[0] == '\0') break;
+		printf("#%d 0x%x: ", ++cnt, now_ret);
+		printf("%s (", name);
+		for(i = 0; i < 4; i++) {
+			printf("%d", swaddr_read(now_ebp + 8 + i * 4, 4));
+			printf("%c", i == 3 ? ')' : ',');
+		}
+		now_ret = swaddr_read(now_ebp + 4, 4);
+		now_ebp = swaddr_read(now_ebp, 4);
+		printf("\n");
+	}
+	return 0;
+}
 
-// static int cmd_cache(char *args);
+
 
 static struct {
 	char *name;
@@ -171,19 +210,16 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-
 	/* TODO: Add more commands */
 	/*Now start to write dbq!!! 9.26*/
-
 	{ "si", "Step into implementation of N instructions after the suspension of execution.When N is notgiven,the default is 1.", cmd_si},
 	{ "info", "r for print register state \n w for print watchpoint information", cmd_info},
 	// { "b", "Breakpoint + *ADDR.", cmd_b},
 	{ "p", "Expression evaluation", cmd_p},
 	{ "x", "Calculate the value of the expression and regard the result as the starting memory address.", cmd_x},
-	// { "w", "Stop the execution of the program if the result of the expression has changed.", cmd_w},
-	// { "d", "Delete the Nth watchpoint", cmd_d},
-	// { "bt", "Print stack frame chain", cmd_bt},
-	// { "cache", "Print cache block infomation", cmd_cache}
+	{ "w", "Stop the execution of the program if the result of the expression has changed.", cmd_w},
+	{ "d", "Delete the Nth watchpoint", cmd_d},
+	{ "bt", "Print stack frame chain", cmd_bt},
 
 };
 
