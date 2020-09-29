@@ -8,7 +8,7 @@ static char *strtab = NULL;
 static Elf32_Sym *symtab = NULL;
 static int nr_symtab_entry;
 
-uint32_t getAddressFromMark(char *mark, bool *success) {
+extern uint32_t getAddressFromMark(char *mark, bool *success) {
 	*success = true;
 	int i;
 	for(i = 0; i < nr_symtab_entry; i++) {
