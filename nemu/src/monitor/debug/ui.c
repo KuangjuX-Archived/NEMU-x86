@@ -43,7 +43,7 @@ void display_wp(){
 	//printf("hello");
 	WP *head = getHead();
 	while(head!=NULL){
-		printf("watchpoint %d : %s\n", h->NO, h->expr);
+		printf("watchpoint %d : %s\n", head->NO, h->expr);
 		head = head->next;
 	}
 }
