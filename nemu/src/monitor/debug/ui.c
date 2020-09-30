@@ -123,7 +123,7 @@ static int cmd_si(char *args){
 			}
 			return 0;
 		}else{
-			printf("\033[1;31mInvalid expression\n\033[0m")
+			printf("\033[1;31mInvalid expression\n\033[0m");
 			return 0;
 		}
 
