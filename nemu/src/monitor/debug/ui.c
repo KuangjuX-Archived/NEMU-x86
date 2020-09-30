@@ -40,10 +40,9 @@ void printRegisters(){
 }
 
 void display_wp(){
-	//printf("hello");
 	WP *head = getHead();
 	while(head!=NULL){
-		printf("watchpoint %d : %s\n", head->NO, h->expr);
+		printf("watchpoint %d : %s\n", head->NO, head->expr);
 		head = head->next;
 	}
 }
