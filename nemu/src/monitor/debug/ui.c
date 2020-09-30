@@ -55,6 +55,7 @@ uint32_t read_address(char *args){
 				if('0' <= args[0] && args[0] <= '9') address = (address<<4)+((args[0]-'0'));
 				if('a' <= args[0] && args[0] <= 'f') address = (address<<4)+((args[0]-'a')+9);
 				if('A' <= args[0] && args[0] <= 'F') address = (address<<4)+((args[0]-'A')+9);
+				++args;
 			}
 
 	return address;
