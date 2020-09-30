@@ -47,6 +47,20 @@ void display_wp(){
 	}
 }
 
+//read address
+uint32_t read_address(char *args){
+	uint32_t address;
+	address = 0;
+	while(('0' <= args[0] && args[0] <= '9') || ('a' <= args[0] && args[0] <= 'f') || ('A' <= args[0] && args[0] <= 'F')){
+				if('0' <= args[0] && args[0] <= '9') address = (address<<4)+((args[0]-'0'));
+				if('a' <= args[0] && args[0] <= 'f') address = (address<<4)+((args[0]-'a')+9);
+				if('A' <= args[0] && args[0] <= 'F') address = (address<<4)+((args[0]-'A')+9);
+				++args;
+			}
+
+	return address;
+}
+
 static int cmd_c(char *args) {
 	cpu_exec(-1);
 	return 0;
@@ -86,10 +100,35 @@ static int cmd_si(char *args){
 	}
 	return 0;
 	
-	
-	 
- }
+}
 
+// static int cmd_x(char* args){
+// 	if(args == NULL) return 0;
+// 	uint32_t num = 0, addr;
+// 	while(args[0] == ' ')++args;	//trim
+// 	while('0' <= args[0] && args[0] <= '9') num = (num << 3) + (num << 1) + (args[0] & 15), ++args;
+// 	//get num
+// 	while(args[0] == ' ')++args; //trim
+// 	//get address
+// 	if(args[0] == '0' && args[1] == 'x'){
+// 		args = args + 2;
+// 		addr = read_address(args);
+
+// 		while(num) {
+// 			printf("address 0x%x:", addr);
+// 			int i;
+// 			for(i = 0;i < 4; i++)printf(" 0x%x", swaddr_read(addr + i, 1));
+// 			printf("\n");
+// 			addr += 4;
+// 			--num;
+// 		}
+// 		return 0;
+// 	}else{
+// 		printf("\033[1;31mInvalid expression\n\033[0m");
+// 		return 0;
+// 	}
+
+// }
  static int cmd_x(char *args){
 	if(args == NULL) return 0;
 	uint32_t num = 0, addr;
