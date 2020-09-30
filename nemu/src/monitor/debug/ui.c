@@ -145,6 +145,7 @@ static int cmd_b(char *args){
 	}else
 	{
 		cmd_w(args);
+		return 1;
 	}
 	
 }
