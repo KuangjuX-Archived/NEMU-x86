@@ -102,34 +102,34 @@ static int cmd_si(char *args){
 	
 }
 
-static int cmd_x(char* args){
-	if(args == NULL) return 0;
-	uint32_t num = 0, addr;
-	while(args[0] == ' ')++args;	//trim
-	while('0' <= args[0] && args[0] <= '9') num = (num << 3) + (num << 1) + (args[0] & 15), ++args;
-	//get num
-	while(args[0] == ' ')++args; //trim
-	//get address
-	if(args[0] == '0' && args[1] == 'x'){
-		args = args + 2;
-		addr = read_address(args);
+// static int cmd_x(char* args){
+// 	if(args == NULL) return 0;
+// 	uint32_t num = 0, addr;
+// 	while(args[0] == ' ')++args;	//trim
+// 	while('0' <= args[0] && args[0] <= '9') num = (num << 3) + (num << 1) + (args[0] & 15), ++args;
+// 	//get num
+// 	while(args[0] == ' ')++args; //trim
+// 	//get address
+// 	if(args[0] == '0' && args[1] == 'x'){
+// 		args = args + 2;
+// 		addr = read_address(args);
 
-		while(num) {
-			printf("address 0x%x:", addr);
-			int i;
-			for(i = 0;i < 4; i++)printf(" 0x%x", swaddr_read(addr + i, 1));
-			printf("\n");
-			addr += 4;
-			--num;
-		}
-		return 0;
-	}else{
-		printf("\033[1;31mInvalid expression\n\033[0m");
-		return 0;
-	}
+// 		while(num) {
+// 			printf("address 0x%x:", addr);
+// 			int i;
+// 			for(i = 0;i < 4; i++)printf(" 0x%x", swaddr_read(addr + i, 1));
+// 			printf("\n");
+// 			addr += 4;
+// 			--num;
+// 		}
+// 		return 0;
+// 	}else{
+// 		printf("\033[1;31mInvalid expression\n\033[0m");
+// 		return 0;
+// 	}
 
-}
- /*static int cmd_x(char *args){
+// }
+ static int cmd_x(char *args){
 	if(args == NULL) return 0;
 	uint32_t num = 0, addr;
 	bool suc;
@@ -151,7 +151,7 @@ static int cmd_x(char* args){
 	}
 	return 0;
 
-	}*/
+	}
 
 static int cmd_p(char *args) {
 	if(args == NULL) return 0;
