@@ -138,7 +138,16 @@ static int cmd_w(char *args) {
 	return 0;
 }
 
-// static int cmd_b(char *args);
+static int cmd_b(char *args){
+	if(args == NULL){
+		printf("Please enter an address\n");
+		return 0;
+	}else
+	{
+		cmd_w(&args);
+	}
+	
+}
 
 static int cmd_d(char *args) {
 	if(args == NULL) return 0;
@@ -187,11 +196,9 @@ static struct {
 	{ "help", "Display informations about all supported commands", cmd_help },
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
-	/* TODO: Add more commands */
-	/*Now start to write dbq!!! 9.26*/
 	{ "si", "Step into implementation of N instructions after the suspension of execution.When N is notgiven,the default is 1.", cmd_si},
 	{ "info", "r for print register state \n w for print watchpoint information", cmd_info},
-	// { "b", "Breakpoint + *ADDR.", cmd_b},
+	{ "b", "Breakpoint + *ADDR.", cmd_b},
 	{ "p", "Expression evaluation", cmd_p},
 	{ "x", "Calculate the value of the expression and regard the result as the starting memory address.", cmd_x},
 	{ "w", "Stop the execution of the program if the result of the expression has changed.", cmd_w},
