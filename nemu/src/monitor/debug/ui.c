@@ -112,16 +112,19 @@ static int cmd_x(char* args){
 	if(args[0] == '0' && args[1] == 'x'){
 		args = args + 2;
 		// addr = read_address(args);
-		addr = 0x100000;
+		// addr = 0x100000;
+		addr = read_address(args);
 
-		while(num) {
-			printf("address 0x%x:", addr);
-			int i;
-			for(i = 0;i < 4; i++)printf(" 0x%x", swaddr_read(addr + i, 1));
-			printf("\n");
-			addr += 4;
-			--num;
-		}
+		// while(num) {
+		// 	printf("address 0x%x:", addr);
+		// 	int i;
+		// 	for(i = 0;i < 4; i++)printf(" 0x%x", swaddr_read(addr + i, 1));
+		// 	printf("\n");
+		// 	addr += 4;
+		// 	--num;
+		// }
+		// return 0;
+		printf("%d\n",addr);
 		return 0;
 	}else{
 		printf("\033[1;31mInvalid expression\n\033[0m");
