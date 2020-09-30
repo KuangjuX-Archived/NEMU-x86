@@ -48,16 +48,16 @@ void display_wp(){
 }
 
 //read address
-void read_address(char *args){
+uint32_t read_address(char *args){
 	uint32_t address;
 	address = 0;
-	while(('0' <= args[0] && args[0] <= '9') || ('a' <= args[0] && args[0] <= 'f') || 'A' <= args[0] && args[0] <= 'F'){
+	while(('0' <= args[0] && args[0] <= '9') || ('a' <= args[0] && args[0] <= 'f') || ('A' <= args[0] && args[0] <= 'F')){
 				if('0' <= args[0] && args[0] <= '9') address = (address<<4)+((args[0]-'0'));
 				if('a' <= args[0] && args[0] <= 'f') address = (address<<4)+((args[0]-'a')+9);
 				if('A' <= args[0] && args[0] <= 'F') address = (address<<4)+((args[0]-'A')+9);
 			}
 
-			return address;
+	return address;
 }
 
 static int cmd_c(char *args) {
@@ -104,7 +104,6 @@ static int cmd_si(char *args){
 	static int cmd_x(char* args){
 		if(args == NULL) return 0;
 		uint32_t num = 0, addr;
-		bool suc;
 		while(args[0] == ' ')++args;	//trim
 		while('0' <= args[0] && args[0] <= '9') num = (num << 3) + (num << 1) + (args[0] & 15), ++args;
 		//get num
