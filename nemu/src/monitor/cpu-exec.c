@@ -80,7 +80,7 @@ void cpu_exec(volatile uint32_t n) {
 		while(head!=NULL){
 			int ans = checkNode(head);
 			if(ans == -1){
-				printf("\033[1;31mwatchpoint %d : Invalid expression\n\033[0m", head->NO);
+				printf("\033[1;31mwatchpoint %d : Invalid expression\n\033[0m", head->NO);flag=1;
 
 			}else if(ans == 0){
 				flag = 1;
