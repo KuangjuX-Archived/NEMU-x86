@@ -75,4 +75,4 @@ submit: clean
 	cd .. && zip -r $(STU_ID).zip $(shell pwd | grep -o '[^/]*$$')
 
 count:
-	bash count.sh ./	
+	bash count.sh ./nemu/	
