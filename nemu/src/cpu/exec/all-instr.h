@@ -2,6 +2,7 @@
 
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
+#include "data-mov/movs.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -29,3 +30,22 @@
 #include "call/call.h"
 
 #include "jump/jmp.h"
+#include "jump/ja.h"
+#include "jump/jbe.h"
+#include "jump/je.h"
+#include "jump/jne.h"
+#include "jump/js.h"
+#include "jump/jns.h"
+
+#include "push/push.h"
+#include "pop/pop.h"
+
+#include "add/add.h"
+#include "add/adc.h"
+
+#include "sub/sbb.h"
+#include "sub/sub.h"
+
+#include "cmp/cmp.h"
+
+#include "test/test.h"
