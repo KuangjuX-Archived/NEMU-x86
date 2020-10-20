@@ -3,6 +3,11 @@
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
 #include "data-mov/movs.h"
+#include "data-mov/movsb.h"
+#include "data-mov/movsw.h"
+#include "data-mov/movzb.h"
+#include "data-mov/movzw.h"
+#include "data-mov/cmovs.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -36,9 +41,14 @@
 #include "jump/jne.h"
 #include "jump/js.h"
 #include "jump/jns.h"
+#include "jump/jl.h"
+#include "jump/jge.h"
+#include "jump/jle.h"
+#include "jump/jg.h"
 
 #include "push/push.h"
 #include "pop/pop.h"
+#include "ret/ret.h"
 
 #include "add/add.h"
 #include "add/adc.h"
@@ -49,3 +59,20 @@
 #include "cmp/cmp.h"
 
 #include "test/test.h"
+
+#include "lea/lea.h"
+
+#include "leave/leave.h"
+
+#include "lods/lods.h"
+
+#include "stos/stos.h"
+
+#include "scas/scas.h"
+
+#include "set/setne.h"
+
+#include "nop/nop.h"
+
+#include "clt/clt.h"
+
