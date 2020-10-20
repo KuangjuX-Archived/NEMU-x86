@@ -8,6 +8,17 @@
 #define decode_a concat(decode_a_, SUFFIX)
 #define decode_r2rm concat(decode_r2rm_, SUFFIX)
 
+
+make_helper(concat(updateCPU_,SUFFIX)){
+	int len = (DATA_BYTE << 3) - 1;
+	cpu.SF = eip >> len;
+	cpu.ZF = !eip;
+	eip ^= eip >> 4;
+	eip ^= eip >> 2;
+	eip ^= eip >> 1;
+	cpu.PF = !(eip&1);
+	return 0;
+}
 /* Ib, Iv */
 make_helper(concat(decode_i_, SUFFIX)) {
 	/* eip here is pointing to the immediate */
