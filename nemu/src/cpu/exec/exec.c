@@ -152,7 +152,7 @@ helper_fun opcode_table [256] = {
 /* 0xdc */	inv, inv, inv, inv,
 /* 0xe0 */	inv, inv, inv, inv,
 /* 0xe4 */	inv, inv, inv, inv,
-/* 0xe8 */	inv, inv, inv, inv,
+/* 0xe8 */	call_i_v, jmp_i_v, inv, jmp_i_b,
 /* 0xec */	inv, inv, inv, inv,
 /* 0xf0 */	inv, inv, inv, inv,
 /* 0xf4 */	inv, inv, group3_b, group3_v,
@@ -238,3 +238,7 @@ static make_helper(_2byte_esc) {
 	ops_decoded.opcode = opcode | 0x100;
 	return _2byte_opcode_table[opcode](eip) + 1; 
 }
+
+
+
+
