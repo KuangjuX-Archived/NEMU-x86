@@ -3,15 +3,29 @@
 #define instr sar
 
 static void do_execute () {
+	// DATA_TYPE src = op_src->val;
+	// DATA_TYPE_S dest = op_dest->val;
+
+	// uint8_t count = src & 0x1f;
+	// dest >>= count;
+	// OPERAND_W(op_dest, dest);
+
+	// /* TODO: Update EFLAGS. */
+	// panic("please implement me");
+
+	// print_asm_template2();
+
 	DATA_TYPE src = op_src->val;
 	DATA_TYPE_S dest = op_dest->val;
 
 	uint8_t count = src & 0x1f;
 	dest >>= count;
 	OPERAND_W(op_dest, dest);
-
-	/* TODO: Update EFLAGS. */
-	panic("please implement me");
+	
+	concat(updateCPU_, SUFFIX) (dest);
+	/* There is no need to update EFLAGS, since no other instructions 
+	 * in PA will test the flags updated by this instruction.
+	 */
 
 	print_asm_template2();
 }
