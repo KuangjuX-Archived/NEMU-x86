@@ -1,5 +1,6 @@
-#include "cpu/exec/helper.h"
+#ifndef __SETNE_H__
+#define __SETNE_H__
 
-#define DATA_BYTE 1
-#include "setne-template.h"
-#undef DATA_BYTE
+make_helper(setne_rm_b);
+
+#endif
