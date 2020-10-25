@@ -19,5 +19,3 @@ $(FLOAT_O):
 $(FLOAT_VFPRINTF_O):
 	mkdir -p obj/lib-common/FLOAT
 	(CC)(FLOAT_CFLAGS_EXTRA) -c lib-common/FLOAT/FLOAT_vfprintf.c -o $(FLOAT_VFPRINTF_O) -Ilib-common
-
-
