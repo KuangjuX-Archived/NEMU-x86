@@ -5,22 +5,20 @@
  */
 #include <sys/types.h>
 #include <regex.h>
+#include <elf.h>
 
 enum {
 	NOTYPE = 0, PLUS, MINUS, STAR, DIV,
 	EQ, NOTEQ, OR, AND,
  	NOT, NEG, POINTER,
-	LB, RB, HEX, DEC, REG,
+	LB, RB, HEX, DEC, REG, MARK
 	//WARNING!! NOTEQ first and then NOT !!
 	//WARNING!! HEX first and then DEC !!
 
 	/* TODO: Add more token types */
 
 };
-
-/*priority*/
-const char *PRE = "04455331266600000";
-
+const char *PRE = "044553312666000000";	//guess what?
 static struct rule {
 	char *regex;
 	int token_type;
@@ -44,7 +42,8 @@ static struct rule {
 	{"\\)", RB},					//rb
 	{"0[xX][0-9a-zA-Z]+", HEX},		//hex
 	{"[0-9]+", DEC},				//dec
-	{"\\$[a-z]+", REG}				//reg
+	{"\\$[a-z]+", REG},				//reg
+	{"[a-zA-Z][A-Za-z0-9_]*", MARK},		//mark
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -100,7 +99,7 @@ static bool make_token(char *e) {
 				switch(rules[i].token_type) {
 					case NOTYPE:
 						break;											//It's blank!
-					case HEX:case DEC:case REG:
+					case HEX:case DEC:case REG:case MARK:
 						strncpy(tokens[nr_token].str, e + position - substr_len, substr_len);//regs or number
 						tokens[nr_token].str[substr_len] = '\0';		//add '\0', it's very important
 						//WARNING: 64 may be a little small...
@@ -147,7 +146,9 @@ bool check_parentheses(int l, int r, bool *success) {//Check the parentheses, us
 	if(cnt != 0) return *success = false;
 	return flag;
 }
-	
+
+uint32_t getAddressFromMark(char *mark, bool *success);
+
 uint32_t eval(int l, int r, bool *success) {
 	*success = true;
 	if(l > r) return *success = false;// Bad Expression !!
@@ -170,6 +171,8 @@ uint32_t eval(int l, int r, bool *success) {
 			if(strcmp(tokens[l].str + 1, "edi") == 0) return cpu.edi;
 			if(strcmp(tokens[l].str + 1, "eip") == 0) return cpu.eip;
 			return *success = false; 
+		} else if(tokens[l].type == MARK) {		//find mark
+			return getAddressFromMark(tokens[l].str, success);
 		}
 		return *success = false;
 	}
