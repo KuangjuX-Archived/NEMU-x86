@@ -54,7 +54,7 @@ clean: clean-cpp
 ##### some convinient rules #####
 
 # USERPROG := obj/testcase/mov
-USERPROG := obj/testcase/quadratic-eq.o
+USERPROG := obj/testcase/integral
 # USERPROG := obj/testcase/if-else
 ENTRY := $(USERPROG)
 
