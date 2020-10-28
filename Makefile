@@ -87,7 +87,8 @@ clean: clean-cpp
 
 # USERPROG := obj/testcase/struct
 # USERPROG := obj/testcase/sub-longlong
-USERPROG := obj/testcase/sum
+# USERPROG := obj/testcase/sum
+USERPROG := obj/testcase/switch
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
