@@ -79,7 +79,8 @@ clean: clean-cpp
 # USERPROG := obj/testcase/print-FLOAT
 
 # USERPROG := obj/testcase/quadratic-eq
-USERPROG := obj/testcase/quick-sort
+# USERPROG := obj/testcase/quick-sort
+USERPROG := obj/testcase/select-sort
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
