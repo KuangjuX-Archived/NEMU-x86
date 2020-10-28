@@ -78,7 +78,8 @@ clean: clean-cpp
 
 # USERPROG := obj/testcase/print-FLOAT
 
-USERPROG := obj/testcase/quadratic-eq
+# USERPROG := obj/testcase/quadratic-eq
+USERPROG := obj/testcase/quick-sort
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
