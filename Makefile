@@ -80,7 +80,8 @@ clean: clean-cpp
 
 # USERPROG := obj/testcase/quadratic-eq
 # USERPROG := obj/testcase/quick-sort
-USERPROG := obj/testcase/select-sort
+# USERPROG := obj/testcase/select-sort
+USERPROG := obj/testcase/shuixianhua
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
