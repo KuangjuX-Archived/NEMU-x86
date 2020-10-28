@@ -58,7 +58,8 @@ clean: clean-cpp
 # USERPROG := obj/testcase/if-else
 # USERPROG := obj/testcase/bit
 # USERPROG := obj/testcase/bubble-sort
-USERPROG := obj/testcase/fact
+# USERPROG := obj/testcase/fact
+USERPROG := obj/testcase/fib
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
