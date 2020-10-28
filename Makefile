@@ -66,7 +66,9 @@ clean: clean-cpp
 
 # USERPROG := obj/testcase/hello-str
 
-USERPROG := obj/testcase/hello
+# USERPROG := obj/testcase/hello
+
+USERPROG := obj/testcase/leap-year
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
