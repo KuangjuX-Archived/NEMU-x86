@@ -75,7 +75,10 @@ clean: clean-cpp
 # USERPROG := obj/testcase/mul-longlong
 # USERPROG := obj/testcase/pascal
 # USERPROG := obj/testcase/prime
-USERPROG := obj/testcase/print-FLOAT
+
+# USERPROG := obj/testcase/print-FLOAT
+
+USERPROG := obj/testcase/quadratic-eq
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
