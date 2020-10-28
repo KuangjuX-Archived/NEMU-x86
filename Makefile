@@ -72,7 +72,8 @@ clean: clean-cpp
 # USERPROG := obj/testcase/max
 # USERPROG := obj/testcase/min3
 # USERPROG := obj/testcase/movsx
-USERPROG := obj/testcase/mul-longlong
+# USERPROG := obj/testcase/mul-longlong
+USERPROG := obj/testcase/pascal
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
