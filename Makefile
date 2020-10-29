@@ -83,7 +83,7 @@ clean: clean-cpp
 # USERPROG := obj/testcase/select-sort
 # USERPROG := obj/testcase/shuixianhua
 
-USERPROG := obj/testcase/string
+USERPROG := obj/testcase/mov
 
 # USERPROG := obj/testcase/struct
 # USERPROG := obj/testcase/sub-longlong
