@@ -10,6 +10,7 @@
 #include "data-mov/cmovs.h"
 #include "data-mov/movsx.h"
 #include "data-mov/leave.h"
+#include "data-mov/movext.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
