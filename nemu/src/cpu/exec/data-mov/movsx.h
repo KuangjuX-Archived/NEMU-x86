@@ -1,5 +1,7 @@
-#include "cpu/exec/helper.h"
+#ifndef __MOVSX_H__
+#define __MOVSX_H__
 
-#define DATA_BYTE 4
-#include "movsx-template.h"
-#undef DATA_BYTE
+make_helper(movsx_rm2r_b);
+make_helper(movsx_rm2r_w);
+
+#endif
