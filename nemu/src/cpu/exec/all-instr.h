@@ -45,6 +45,8 @@
 #include "jump/jge.h"
 #include "jump/jle.h"
 #include "jump/jg.h"
+#include "jump/jb.h"
+#include "jump/jae.h"
 
 #include "push/push.h"
 #include "pop/pop.h"
@@ -74,5 +76,5 @@
 
 #include "nop/nop.h"
 
-#include "clt/clt.h"
+#include "clt/cltd.h"
 
