@@ -53,7 +53,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-# USERPROG := obj/testcase/mov
+USERPROG := obj/testcase/mov
 # USERPROG := obj/testcase/matrix-mul
 # USERPROG := obj/testcase/if-else
 # USERPROG := obj/testcase/bit
@@ -90,8 +90,8 @@ clean: clean-cpp
 # USERPROG := obj/testcase/sum
 # USERPROG := obj/testcase/switch
 # USERPROG := obj/testcase/to-lower-case
-USERPROG := obj/testcase/wanshu
-ENTRY := $(USERPROG)
+# USERPROG := obj/testcase/wanshu
+ENTRY := $(kernel_BIN)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
