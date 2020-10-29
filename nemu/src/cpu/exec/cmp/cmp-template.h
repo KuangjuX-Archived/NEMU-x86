@@ -5,9 +5,17 @@
 void do_execute() {
 	DATA_TYPE ans = op_dest->val - op_src->val;
 	concat(updateCPU_, SUFFIX) (ans);
-	int len = (DATA_BYTE << 3) - 1;
+	cpu.ZF = !ans;
 	cpu.CF = op_dest->val < op_src->val;
-	cpu.OF = ((op_dest->val >> len) != (op_src->val >> len) && (op_src->val >> len) == cpu.SF);
+	cpu.SF = ans >> ((DATA_BYTE<<3)-1);
+	int tmp1 = (op_dest -> val) >> ((DATA_BYTE<<3)-1);
+	int tmp2 = (op_src -> val) >> ((DATA_BYTE<<3)-1);
+	cpu.OF = (tmp1!=tmp2 && tmp2 == cpu.SF);
+	ans ^= ans>>4;
+	ans ^= ans>>2;
+	ans ^= ans>>1;
+	ans &= 1;
+	cpu.PF = !ans;
 	print_asm_template2();
 }
 
