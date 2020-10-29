@@ -68,7 +68,7 @@ clean: clean-cpp
 
 # USERPROG := obj/testcase/hello
 
-USERPROG := obj/testcase/leap-year
+# USERPROG := obj/testcase/leap-year
 # USERPROG := obj/testcase/max
 # USERPROG := obj/testcase/min3
 # USERPROG := obj/testcase/movsx
@@ -83,7 +83,7 @@ USERPROG := obj/testcase/leap-year
 # USERPROG := obj/testcase/select-sort
 # USERPROG := obj/testcase/shuixianhua
 
-# USERPROG := obj/testcase/string
+USERPROG := obj/testcase/string
 
 # USERPROG := obj/testcase/struct
 # USERPROG := obj/testcase/sub-longlong
