@@ -8,6 +8,4 @@
 #include "movzw-template.h"
 #undef DATA_BYTE
 
-/* for instruction encoding overloading */
-
 make_helper_v(movzw_rm2r)
