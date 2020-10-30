@@ -3,16 +3,6 @@
 #define instr inc
 
 static void do_execute () {
-	// DATA_TYPE result = op_src->val + 1;
-	// OPERAND_W(op_src, result);
-
-	// /* TODO: Update EFLAGS. */
-	// //panic("please implement me");
-	// cpu.OF = result < op_src->val;
-	// concat(updateCPU_, SUFFIX) (result);
-
-	// print_asm_template1();
-
 	DATA_TYPE ret = op_src->val + 1;
 	OPERAND_W(op_src, ret);
 
