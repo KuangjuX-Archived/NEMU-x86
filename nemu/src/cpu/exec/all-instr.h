@@ -2,7 +2,7 @@
 
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
-// #include "data-mov/movs.h"
+#include "data-mov/movs.h"
 // #include "data-mov/movsb.h"
 // #include "data-mov/movsw.h"
 #include "data-mov/movzb.h"
