@@ -12,8 +12,10 @@
 #include "adc-template.h"
 #undef DATA_BYTE
 
-make_helper_v(adc_i2rm)
-make_helper_v(adc_si2rm)
-make_helper_v(adc_r2rm)
-make_helper_v(adc_rm2r)
-make_helper_v(adc_i2a)
+/* for instruction encoding overloading */
+
+make_helper_v(adc_i2a);
+make_helper_v(adc_i2rm);
+make_helper_v(adc_si2rm);
+make_helper_v(adc_r2rm);
+make_helper_v(adc_rm2r);
