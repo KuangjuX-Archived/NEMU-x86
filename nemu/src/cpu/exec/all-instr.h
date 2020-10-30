@@ -77,7 +77,6 @@
 
 #include "set/setne.h"
 
-#include "nop/nop.h"
 
 #include "clt/cltd.h"
 
