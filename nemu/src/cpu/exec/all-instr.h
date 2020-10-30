@@ -1,16 +1,13 @@
-#include "prefix/prefix.h"
+#include "prefix/prefix.h" //y
 
-#include "data-mov/mov.h"
-#include "data-mov/xchg.h"
+#include "data-mov/mov.h"//y
+#include "data-mov/xchg.h"//y
 #include "data-mov/movs.h"
-// #include "data-mov/movsb.h"
-// #include "data-mov/movsw.h"
 #include "data-mov/movzb.h"
 #include "data-mov/movzw.h"
-// #include "data-mov/cmovs.h"
 #include "data-mov/movsx.h"
 #include "data-mov/leave.h"
-#include "data-mov/movext.h"
+#include "data-mov/movext.h"//y
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -51,8 +48,8 @@
 #include "jump/jb.h"
 #include "jump/jae.h"
 
-#include "push/push.h"
-#include "pop/pop.h"
+#include "push/push.h"//y
+#include "pop/pop.h"//y
 #include "ret/ret.h"
 
 #include "add/add.h"
@@ -65,9 +62,8 @@
 
 #include "test/test.h"
 
-// #include "lea/lea.h"
 
-#include "leave/leave.h"
+//#include "leave/leave.h"//y
 
 #include "lods/lods.h"
 
@@ -78,5 +74,5 @@
 #include "set/setne.h"
 
 
-#include "clt/cltd.h"
+#include "clt/cltd.h"//y
 
