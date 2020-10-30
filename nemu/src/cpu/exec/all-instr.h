@@ -2,12 +2,30 @@
 
 #include "data-mov/mov.h"
 #include "data-mov/xchg.h"
-#include "data-mov/movs.h"
-#include "data-mov/movsb.h"
-#include "data-mov/movsw.h"
+#include "data-mov/push.h"
+#include "data-mov/pop.h"
+#include "data-mov/cltd.h"
+#include "data-mov/leave.h"
+#include "data-mov/movext.h"
 #include "data-mov/movzb.h"
 #include "data-mov/movzw.h"
-#include "data-mov/cmovs.h"
+#include "data-mov/movsx.h"
+
+#include "call-jump-ret/call.h"
+#include "call-jump-ret/je.h"
+#include "call-jump-ret/ret.h"
+#include "call-jump-ret/jmp.h"
+#include "call-jump-ret/jbe.h"
+#include "call-jump-ret/jne.h"
+#include "call-jump-ret/jle.h"
+#include "call-jump-ret/jg.h"
+#include "call-jump-ret/jl.h"
+#include "call-jump-ret/jge.h"
+#include "call-jump-ret/ja.h"
+#include "call-jump-ret/js.h"
+#include "call-jump-ret/jns.h"
+#include "call-jump-ret/jb.h"
+#include "call-jump-ret/jae.h"
 
 #include "arith/dec.h"
 #include "arith/inc.h"
@@ -16,6 +34,11 @@
 #include "arith/mul.h"
 #include "arith/idiv.h"
 #include "arith/div.h"
+#include "arith/cmp.h"
+#include "arith/add.h"
+#include "arith/adc.h"
+#include "arith/sub.h"
+#include "arith/sbb.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
@@ -25,54 +48,15 @@
 #include "logic/shl.h"
 #include "logic/shr.h"
 #include "logic/shrd.h"
+#include "logic/test.h"
+#include "logic/setne.h"
 
 #include "string/rep.h"
+#include "string/movs.h"
+#include "string/lods.h"
+#include "string/scas.h"
+#include "string/stos.h"
 
 #include "misc/misc.h"
 
 #include "special/special.h"
-
-#include "call/call.h"
-
-#include "jump/jmp.h"
-#include "jump/ja.h"
-#include "jump/jbe.h"
-#include "jump/je.h"
-#include "jump/jne.h"
-#include "jump/js.h"
-#include "jump/jns.h"
-#include "jump/jl.h"
-#include "jump/jge.h"
-#include "jump/jle.h"
-#include "jump/jg.h"
-
-#include "push/push.h"
-#include "pop/pop.h"
-#include "ret/ret.h"
-
-#include "add/add.h"
-#include "add/adc.h"
-
-#include "sub/sbb.h"
-#include "sub/sub.h"
-
-#include "cmp/cmp.h"
-
-#include "test/test.h"
-
-// #include "lea/lea.h"
-
-#include "leave/leave.h"
-
-#include "lods/lods.h"
-
-#include "stos/stos.h"
-
-#include "scas/scas.h"
-
-#include "set/setne.h"
-
-#include "nop/nop.h"
-
-#include "clt/clt.h"
-
