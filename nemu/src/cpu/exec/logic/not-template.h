@@ -5,7 +5,6 @@
 static void do_execute() {
 	DATA_TYPE result = ~op_src->val;
 	OPERAND_W(op_src, result);
-	concat(updateCPU_, SUFFIX) (result);
 	print_asm_template1();
 }
 
