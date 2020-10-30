@@ -9,6 +9,7 @@
 
 void cpu_exec(uint32_t);
 
+void GetFunctionAddr(swaddr_t EIP,char* name);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
