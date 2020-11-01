@@ -74,10 +74,10 @@ USERPROG := obj/testcase/bubble-sort
 # USERPROG := obj/testcase/min3
 # USERPROG := obj/testcase/movsx
 # USERPROG := obj/testcase/mul-longlong
-# USERPROG := obj/testcase/pascal
+USERPROG := obj/testcase/pascal
 # USERPROG := obj/testcase/prime
 
-USERPROG := obj/testcase/print-FLOAT
+# USERPROG := obj/testcase/print-FLOAT
 
 # USERPROG := obj/testcase/quadratic-eq
 # USERPROG := obj/testcase/quick-sort
