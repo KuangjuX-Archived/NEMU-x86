@@ -9,6 +9,7 @@
 
 void cpu_exec(uint32_t);
 
+void GetFunctionAddr(swaddr_t EIP,char* name);
 /* We use the `readline' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -203,25 +204,37 @@ static int cmd_d(char *args) {
 }
 
 
-void getFunctionFromAddress(swaddr_t addr, char *s);
-
-static int cmd_bt(char *args) {
-	swaddr_t now_ebp = reg_l(R_EBP);
-	swaddr_t now_ret = cpu.eip;
-	int cnt = 0, i;
-	char name[50];
-	while(now_ebp) {
-		getFunctionFromAddress(now_ret, name);
-		if(name[0] == '\0') break;
-		printf("#%d 0x%x: ", ++cnt, now_ret);
-		printf("%s (", name);
-		for(i = 0; i < 4; i++) {
-			printf("%d", swaddr_read(now_ebp + 8 + i * 4, 4));
-			printf("%c", i == 3 ? ')' : ',');
+typedef struct {
+	swaddr_t prev_ebp;
+	swaddr_t ret_addr;
+	uint32_t args[4];
+}PartOfStackFrame ;
+static int cmd_bt(char* args){
+	if (args != NULL){
+		printf("Wrong Command!");
+		return 0;
+	}
+	PartOfStackFrame EBP;
+	char name[32];
+	int cnt = 0;
+	EBP.ret_addr = cpu.eip;
+	swaddr_t addr = cpu.ebp;
+	// printf("%d\n",addr);
+	int i;
+	while (addr){
+		GetFunctionAddr(EBP.ret_addr,name);
+		if (name[0] == '\0') break;
+		printf("#%d\t0x%08x\t",cnt++,EBP.ret_addr);
+		printf("%s",name);
+		EBP.prev_ebp = swaddr_read(addr,4);
+		EBP.ret_addr = swaddr_read(addr + 4, 4);
+		printf("(");
+		for (i = 0;i < 4;i ++){
+			EBP.args[i] = swaddr_read(addr + 8 + i * 4, 4);
+			printf("0x%x",EBP.args[i]);
+			if (i == 3) printf(")\n");else printf(", ");
 		}
-		now_ret = swaddr_read(now_ebp + 4, 4);
-		now_ebp = swaddr_read(now_ebp, 4);
-		printf("\n");
+		addr = EBP.prev_ebp;
 	}
 	return 0;
 }

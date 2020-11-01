@@ -53,6 +53,7 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
+# USERPROG := obj/testcase/add
 # USERPROG := obj/testcase/mov
 # USERPROG := obj/testcase/matrix-mul
 # USERPROG := obj/testcase/if-else
@@ -76,7 +77,7 @@ USERPROG := obj/testcase/bubble-sort
 # USERPROG := obj/testcase/pascal
 # USERPROG := obj/testcase/prime
 
-# USERPROG := obj/testcase/print-FLOAT
+USERPROG := obj/testcase/print-FLOAT
 
 # USERPROG := obj/testcase/quadratic-eq
 # USERPROG := obj/testcase/quick-sort
