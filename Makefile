@@ -58,7 +58,7 @@ clean: clean-cpp
 # USERPROG := obj/testcase/matrix-mul
 # USERPROG := obj/testcase/if-else
 # USERPROG := obj/testcase/bit
-USERPROG := obj/testcase/bubble-sort
+# USERPROG := obj/testcase/bubble-sort
 # USERPROG := obj/testcase/fact
 # USERPROG := obj/testcase/fib
 # USERPROG := obj/testcase/gotbaha
@@ -74,7 +74,7 @@ USERPROG := obj/testcase/bubble-sort
 # USERPROG := obj/testcase/min3
 # USERPROG := obj/testcase/movsx
 # USERPROG := obj/testcase/mul-longlong
-USERPROG := obj/testcase/pascal
+# USERPROG := obj/testcase/pascal
 # USERPROG := obj/testcase/prime
 
 # USERPROG := obj/testcase/print-FLOAT
@@ -84,7 +84,7 @@ USERPROG := obj/testcase/pascal
 # USERPROG := obj/testcase/select-sort
 # USERPROG := obj/testcase/shuixianhua
 
-# USERPROG := obj/testcase/string
+USERPROG := obj/testcase/string
 
 # USERPROG := obj/testcase/struct
 # USERPROG := obj/testcase/sub-longlong
