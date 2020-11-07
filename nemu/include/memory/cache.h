@@ -2,6 +2,14 @@
 #define __CACHE_H_
 
 #include "common.h"
+/**
+ * cache block 64B
+ * cache 64KB
+ * 8-way set associative
+ * flag bit only depend on valid bit
+ * The replacement algorithm uses a random method
+ * write through
+ * not write allocate**/
 
 #define Cache_L1_Size 64 * 1024
 #define Cache_L1_Block_Size 64
