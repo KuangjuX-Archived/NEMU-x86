@@ -28,14 +28,14 @@ int read_cache1(hwaddr_t address){
     uint32_t i;
     uint32_t group_position = group_id*Cache_L1_Way_Size;
 
-    for(i=group_position; i<Cache_L1_Way_Size; i++){
+    for(i=group_position; i < group_position+Cache_L1_Way_Size; i++){
         if(cache1[i].tag==tag_id && cache1[i].valid==1){
             //HIT Cache_1
             return i;
         }
     }
 
-    //If fail to hit cache , replace with random algorithm
+    //Fail to hit cache , replace with random algorithm
     srand((unsigned int)(time(NULL)));
     i = group_position + rand()%Cache_L1_Way_Size;
 
@@ -50,5 +50,28 @@ int read_cache1(hwaddr_t address){
 }
 
 int read_cache2(hwaddr_t address){
-    return -1;
+    uint32_t group_id = ((address>>Cache_L2_Block_Bit)&(Cache_L2_Group_Size-1));
+    uint32_t tag = (address>>(Cache_L2_Block_Bit+Cache_L2_Group_Bit));
+
+    int i,group_position;
+    group_position = group_id*Cache_L2_Way_Size;
+
+    for(i=group_position; i < group_position+Cache_L2_Way_Size; i++){
+        if(cache2[i].valid == 1&&cache2[i].tag==tag){
+            //HIT Cache2
+            return i;
+        }
+    }
+
+    //Fail to hit cache2,replace with random algorithm
+
+    srand((unsigned int)time(NULL));
+    i = (rand() % Cache_L2_Way_Size) + group_position;
+
+    /*replace by reading memory*/
+    if((cache2[i].valid == 1) && (cache2[i].dirty==1)){
+        return i;
+    }
+
+    return i;
 }
