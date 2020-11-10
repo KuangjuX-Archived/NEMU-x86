@@ -78,7 +78,7 @@ int read_cache2(hwaddr_t address){
         int w;
         memset(ret,1,sizeof ret);
         for (w = 0;w < Cache_L2_Block_Size / BURST_LEN; w++){
-            ddr3_write_replace(block_st + BURST_LEN * w, cache2[i].data + BURST_LEN * w,ret);
+            public_ddr3_write(block_st + BURST_LEN * w, cache2[i].data + BURST_LEN * w,ret);
         }
     }
 
@@ -87,5 +87,14 @@ int read_cache2(hwaddr_t address){
     for(0; k < (Cache_L2_Block_Size/BURST_LEN); k++){
         public_ddr3_read(block_start + k*BURST_LEN, cache2[i].data[k * BURST_LEN]);
     }
+
     return i;
+}
+
+void write_cache1(hwaddr_t address, size_t len, uint32_t data){
+
+}
+
+void write_cache2(hwaddr_t address, size_t len, uint32_t data){
+    
 }
