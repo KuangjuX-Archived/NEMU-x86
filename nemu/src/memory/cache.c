@@ -24,7 +24,7 @@ void init_cache(){
 }
 
 int read_cache1(hwaddr_t address){
-    uint32_t group_id = ((address>>Cache_L1_Block_Bit)^(0x0380));//mask
+    uint32_t group_id = (address>>Cache_L1_Block_Bit) & (Cache_L1_Block_Size-1);//mask
     uint32_t tag_id = (address>>(Cache_L1_Block_Bit+Cache_L1_Group_Bit));
 
     uint32_t i;
