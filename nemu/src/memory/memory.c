@@ -19,6 +19,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 
 	if(offset + len > Cache_L1_Block_Size){
 		memcpy(temp, cache1[start_address].data + offset, Cache_L1_Block_Size - offset);
+		Log();
 		int next_address = read_cache1(addr + Cache_L1_Block_Size - offset);
 		memcpy(temp + (Cache_L1_Block_Size - offset), cache1[next_address].data, len - (Cache_L1_Block_Size - offset));
 	}else{
