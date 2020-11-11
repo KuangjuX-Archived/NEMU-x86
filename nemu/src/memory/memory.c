@@ -14,7 +14,6 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[BURST_LEN << 1];
 
-	Log();
 	int start_address = read_cache1(addr);
 	
 
