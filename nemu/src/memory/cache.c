@@ -5,6 +5,8 @@
 #include <stdlib.h>
 #include "burst.h"
 
+void public_ddr3_read(hwaddr_t addr, void* data);
+void public_ddr3_write(hwaddr_t addr, void* data, uint8_t *mask);
 
 void init_cache(){
     //initialize cache L1
@@ -50,10 +52,10 @@ int read_cache1(hwaddr_t address){
 }
 
 int read_cache2(hwaddr_t address){
-    uint32_t group_id = ((address>>Cache_L2_Block_Bit)&(Cache_L2_Group_Size-1));
-    uint32_t tag = (address>>(Cache_L2_Block_Bit+Cache_L2_Group_Bit));
+    uint32_t group_id = (address>>Cache_L2_Block_Bit)&(Cache_L2_Group_Size-1);
+    uint32_t tag = address>>(Cache_L2_Block_Bit+Cache_L2_Group_Bit);
     //set start position of copying address
-    uint32_t block_start = ((address>>Cache_L2_Block_Size)<<Cache_L2_Block_Size);
+    uint32_t block_start = (address >> Cache_L2_Block_Bit) << Cache_L2_Block_Bit;
 
     int i,group_position;
     group_position = group_id*Cache_L2_Way_Size;
@@ -74,7 +76,7 @@ int read_cache2(hwaddr_t address){
     /*write back*/
     if((cache2[i].valid == 1) && (cache2[i].dirty==1)){
         uint8_t ret[BURST_LEN << 1];
-        uint32_t block_st = (cache2[i].tag << (Cache_L2_Group_Bit + Cache_L2_Block_Bit)) | (group_idx << Cache_L2_Block_Bit);
+        uint32_t block_st = (cache2[i].tag << (Cache_L2_Group_Bit + Cache_L2_Block_Bit)) | (group_id << Cache_L2_Block_Bit);
         int w;
         memset(ret,1,sizeof ret);
         for (w = 0;w < Cache_L2_Block_Size / BURST_LEN; w++){
@@ -84,9 +86,13 @@ int read_cache2(hwaddr_t address){
 
     /*read from memory*/
     int k;
-    for(0; k < (Cache_L2_Block_Size/BURST_LEN); k++){
-        public_ddr3_read(block_start + k*BURST_LEN, cache2[i].data[k * BURST_LEN]);
+    for(k = 0; k < (Cache_L2_Block_Size/BURST_LEN); k++){
+        public_ddr3_read(block_start + k*BURST_LEN, cache2[i].data+ k * BURST_LEN);
     }
+
+    cache2[i].dirty = 0;
+    cache2[i].valid = 1;
+    cache2[i].tag = tag;
 
     return i;
 }
