@@ -77,7 +77,7 @@ clean: clean-cpp
 # USERPROG := obj/testcase/pascal
 # USERPROG := obj/testcase/prime
 
-# USERPROG := obj/testcase/print-FLOAT
+USERPROG := obj/testcase/print-FLOAT
 
 # USERPROG := obj/testcase/quadratic-eq
 # USERPROG := obj/testcase/quick-sort
@@ -86,7 +86,7 @@ clean: clean-cpp
 
 # USERPROG := obj/testcase/string
 
-USERPROG := obj/testcase/struct
+# USERPROG := obj/testcase/struct
 # USERPROG := obj/testcase/sub-longlong
 # USERPROG := obj/testcase/sum
 # USERPROG := obj/testcase/switch
