@@ -36,6 +36,9 @@ int read_cache1(hwaddr_t address){
     for(i=group_position+0; i < group_position + Cache_L1_Way_Size; i++){
         if(cache1[i].tag==tag_id && cache1[i].valid==1){
             //HIT Cache_1
+#ifndef TEST
+    test_time += 2;
+ #endif                  
             return i;
         }
     }
@@ -66,11 +69,19 @@ int read_cache2(hwaddr_t address){
     for(i = group_position + 0; i < group_position + Cache_L2_Way_Size; i++){
         if(cache2[i].valid == 1 && cache2[i].tag==tag){
             //HIT Cache2
+#ifndef TEST
+    test_time += 10;
+#endif
+
             return i;
         }
     }
 
     //Fail to hit cache2,replace with random algorithm
+
+#ifndef TEST
+    test_time += 200;
+#endif
 
     srand((unsigned int)time(NULL));
     i = (rand() % Cache_L2_Way_Size) + group_position;
