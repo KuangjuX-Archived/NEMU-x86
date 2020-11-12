@@ -27,8 +27,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		memcpy(temp, cache1[start_address].data + offset, len);
 	}
 
-	//int zero = 0;
-	uint32_t ans = unalign_rw(temp + offset, 4) & (~0u >> ((4 - len) << 3));
+	int zero = 0;
+	uint32_t ans = unalign_rw(temp + zero, 4) & (~0u >> ((4 - len) << 3));
 	return ans;
 }
 
