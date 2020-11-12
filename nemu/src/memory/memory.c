@@ -11,7 +11,7 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	// return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-	uint32_t offset = addr & BURST_MASK;
+	uint32_t offset = addr & (Cache_L1_Block_Size - 1);
 	uint8_t temp[BURST_LEN << 1];
 
 	int start_address = read_cache1(addr);
@@ -27,8 +27,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 		memcpy(temp, cache1[start_address].data + offset, len);
 	}
 
-	int tmp = 0;
-	uint32_t ans = unalign_rw(temp + tmp, 4) & (~0u >> ((4 - len) << 3));
+	int zero = 0;
+	uint32_t ans = unalign_rw(temp + zero, 4) & (~0u >> ((4 - len) << 3));
 	return ans;
 }
 
