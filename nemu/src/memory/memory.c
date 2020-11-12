@@ -18,9 +18,7 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	
 
 	if(offset + len > Cache_L1_Block_Size){
-		//Log();
 		memcpy(temp, cache1[start_address].data + offset, Cache_L1_Block_Size - offset);
-		//Log();
 		int next_address = read_cache1(addr + Cache_L1_Block_Size - offset);
 		memcpy(temp + (Cache_L1_Block_Size - offset), cache1[next_address].data, len - (Cache_L1_Block_Size - offset));
 	}else{
@@ -33,8 +31,8 @@ uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	dram_write(addr, len, data);
-	//write_cache1(addr, len, data);
+	//dram_write(addr, len, data);
+	write_cache1(addr, len, data);
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
