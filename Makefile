@@ -92,7 +92,7 @@ USERPROG := obj/testcase/add
 # USERPROG := obj/testcase/switch
 # USERPROG := obj/testcase/to-lower-case
 # USERPROG := obj/testcase/wanshu
-ENTRY := $(kernel_BIN)
+ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry
