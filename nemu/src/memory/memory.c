@@ -10,31 +10,31 @@ void dram_write(hwaddr_t, size_t, uint32_t);
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	//return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
-	uint32_t offset = addr & (Cache_L1_Block_Size - 1);
-	uint8_t temp[BURST_LEN << 1];
+	return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
+	// uint32_t offset = addr & (Cache_L1_Block_Size - 1);
+	// uint8_t temp[BURST_LEN << 1];
 
-	int start_address = read_cache1(addr);
+	// int start_address = read_cache1(addr);
 	
 
-	if(offset + len > Cache_L1_Block_Size){
-		//Log();
-		memcpy(temp, cache1[start_address].data + offset, Cache_L1_Block_Size - offset);
-		//Log();
-		int next_address = read_cache1(addr + Cache_L1_Block_Size - offset);
-		memcpy(temp + (Cache_L1_Block_Size - offset), cache1[next_address].data, len - (Cache_L1_Block_Size - offset));
-	}else{
-		memcpy(temp, cache1[start_address].data + offset, len);
-	}
+	// if(offset + len > Cache_L1_Block_Size){
+	// 	//Log();
+	// 	memcpy(temp, cache1[start_address].data + offset, Cache_L1_Block_Size - offset);
+	// 	//Log();
+	// 	int next_address = read_cache1(addr + Cache_L1_Block_Size - offset);
+	// 	memcpy(temp + (Cache_L1_Block_Size - offset), cache1[next_address].data, len - (Cache_L1_Block_Size - offset));
+	// }else{
+	// 	memcpy(temp, cache1[start_address].data + offset, len);
+	// }
 
-	int zero = 0;
-	uint32_t ans = unalign_rw(temp + zero, 4) & (~0u >> ((4 - len) << 3));
-	return ans;
+	// int zero = 0;
+	// uint32_t ans = unalign_rw(temp + zero, 4) & (~0u >> ((4 - len) << 3));
+	// return ans;
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	//dram_write(addr, len, data);
-	write_cache1(addr, len, data);
+	dram_write(addr, len, data);
+	//write_cache1(addr, len, data);
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
