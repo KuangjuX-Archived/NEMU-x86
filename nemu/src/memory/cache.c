@@ -77,12 +77,12 @@ int read_cache2(hwaddr_t address){
 
     /*replace by reading memory*/
     /*write back*/
-    if((cache2[i].valid == 1) && (cache2[i].dirty==1)){
+    if(cache2[i].valid == 1 && cache2[i].dirty==1){
         uint8_t ret[BURST_LEN << 1];
         uint32_t block_st = (cache2[i].tag << (Cache_L2_Group_Bit + Cache_L2_Block_Bit)) | (group_id << Cache_L2_Block_Bit);
         int w;
         memset(ret,1,sizeof ret);
-        for (w = 0;w < Cache_L2_Block_Size / BURST_LEN; w++){
+        for (w = 0; w < Cache_L2_Block_Size / BURST_LEN; w++){
             public_ddr3_write(block_st + BURST_LEN * w, cache2[i].data + BURST_LEN * w,ret);
         }
     }
