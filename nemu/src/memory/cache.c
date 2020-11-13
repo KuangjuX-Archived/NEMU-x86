@@ -47,11 +47,12 @@ int read_cache1(hwaddr_t address){
     }
 
     //Fail to hit cache , replace with random algorithm
+    //read address from cache2
+    int replace = read_cache2(address);
     srand((unsigned int)(time(NULL)));
     i = group_position + rand()%Cache_L1_Way_Size;
 
-    //read address from cache2
-    int replace = read_cache2(address);
+    
     memcpy(cache1[i].data,cache2[replace].data,Cache_L1_Block_Size);
 
     cache1[i].valid = 1;
