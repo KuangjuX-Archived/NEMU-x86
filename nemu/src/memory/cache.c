@@ -36,7 +36,7 @@ int read_cache1(hwaddr_t address){
     int i, group_position;
     group_position = group_id * Cache_L1_Way_Size;
     
-    for(i = group_position + 0; i < group_position + Cache_L1_Way_Size; i++){
+    for(i = group_position; i < group_position + Cache_L1_Way_Size; i++){
         if(cache1[i].tag==tag_id && cache1[i].valid==1){
             //HIT Cache_1
 #ifndef TEST
@@ -50,7 +50,7 @@ int read_cache1(hwaddr_t address){
     //read address from cache2
     int replace = read_cache2(address);
     srand((unsigned int)(time(NULL)));
-    i = group_position + rand()%Cache_L1_Way_Size;
+    i = group_position + (rand() % Cache_L1_Way_Size);
 
     
     memcpy(cache1[i].data,cache2[replace].data,Cache_L1_Block_Size);
