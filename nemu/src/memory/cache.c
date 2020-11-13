@@ -34,8 +34,8 @@ int read_cache1(hwaddr_t address){
     // uint32_t tag_id = (address >> (Cache_L1_Block_Bit + Cache_L1_Group_Bit));
 
     uint32_t group_id = (address >> Cache_L1_Block_Bit) & (Cache_L1_Group_Size - 1);
-    uint32_t tag_id = (address >> (Cache_L1_Group_Bit + Cache_L1_Block_Bit));
-    
+    uint32_t tag_id = (address >> (Cache_L1_Block_Bit + Cache_L1_Group_Bit));
+
     int i, group_position;
     group_position = group_id * Cache_L1_Way_Size;
     
