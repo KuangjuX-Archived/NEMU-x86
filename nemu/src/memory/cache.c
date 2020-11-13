@@ -28,78 +28,40 @@ void init_cache(){
     test_time = 0;
 }
 
-// int read_cache1(hwaddr_t address){
+int read_cache1(hwaddr_t address){
     
-//     uint32_t group_id = (address >> Cache_L1_Block_Bit) & (Cache_L1_Block_Size-1);//mask
-//     uint32_t tag_id = (address >> (Cache_L1_Block_Bit + Cache_L1_Group_Bit));
+    uint32_t group_id = (address >> Cache_L1_Block_Bit) & (Cache_L1_Block_Size-1);//mask
+    uint32_t tag_id = (address >> (Cache_L1_Block_Bit + Cache_L1_Group_Bit));
 
-//     int i, group_position;
-//     group_position = group_id * Cache_L1_Way_Size;
+    int i, group_position;
+    group_position = group_id * Cache_L1_Way_Size;
 
-//     for(i = group_position; i < group_position + Cache_L1_Way_Size; i++){
-//         if(cache1[i].tag==tag_id && cache1[i].valid==1){
-//             //HIT Cache_1
-// #ifndef TEST
-//     test_time += 2;
-//  #endif                  
-//             return i;
-//         }
-//     }
-
-//     //Fail to hit cache , replace with random algorithm
-//     //read address from cache2
-//     int replace = read_cache2(address);
-//     srand((unsigned int)(time(NULL)));
-//     i = group_position + rand()%Cache_L1_Way_Size;
-
-    
-//     memcpy(cache1[i].data,cache2[replace].data,Cache_L1_Block_Size);
-
-//     cache1[i].valid = 1;
-//     cache2[i].tag = tag_id;
-    
-//     return i;
-// }
-
-
-int read_cache1(hwaddr_t addr){
-    uint32_t group_idx = (addr >> Cache_L1_Block_Bit) & (Cache_L1_Group_Size - 1);
-    uint32_t tag = (addr >> (Cache_L1_Group_Bit + Cache_L1_Block_Bit));
-    // uint32_t block_start = (addr >> Cache_L1_Block_Bit) << Cache_L1_Block_Bit;
-
-    int i,group = group_idx * Cache_L1_Way_Size;
-    for (i = group + 0;i < group + Cache_L1_Way_Size;i ++){
-        if (cache1[i].valid == 1 && cache1[i].tag == tag){// READ HIT
-
-#ifdef Test
-            test_time += 2;//HIT in Cache1
-#endif
+    for(i = group_position; i < group_position + Cache_L1_Way_Size; i++){
+        if(cache1[i].tag==tag_id && cache1[i].valid==1){
+            //HIT Cache_1
+#ifndef TEST
+    test_time += 2;
+ #endif                  
             return i;
         }
     }
+
+    //Fail to hit cache , replace with random algorithm
+    //read address from cache2
+    int replace = read_cache2(address);
+    srand((unsigned int)(time(NULL)));
+    i = group_position + rand()%Cache_L1_Way_Size;
+
     
-    // Find in Cache2
-    int pl = read_cache2(addr);   
-    srand(time(0));
-    i = group + rand() % Cache_L1_Way_Size;
-    memcpy(cache1[i].data,cache2[pl].data,Cache_L1_Block_Size);
+    memcpy(cache1[i].data,cache2[replace].data,Cache_L1_Block_Size);
 
-
-    // Random (PA3 task1)
-// #ifdef Test
-//     test_time += 200;
-// #endif
-    // srand(time(0));
-    // i = group + rand() % Cache_L1_Way_Size;
-    // /*new content*/
-    // int j;
-    // for (j = 0;j < Cache_L1_Block_Size / BURST_LEN;j ++){
-    //     ddr3_read_replace(block_start + BURST_LEN * j, cache1[i].data + BURST_LEN * j);
-    // }
     cache1[i].valid = 1;
-    cache1[i].tag = tag;
+    cache2[i].tag = tag_id;
+    
     return i;
 }
+
+
 
 
 
