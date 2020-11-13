@@ -39,9 +39,11 @@ int read_cache1(hwaddr_t address){
     for(i = group_position; i < group_position + Cache_L1_Way_Size; i++){
         if(cache1[i].tag==tag_id && cache1[i].valid==1){
             //HIT Cache_1
+
 #ifndef TEST
     test_time += 2;
  #endif                  
+ 
             return i;
         }
     }
