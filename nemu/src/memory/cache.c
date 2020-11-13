@@ -51,16 +51,25 @@ int read_cache1(hwaddr_t address){
 
     //Fail to hit cache , replace with random algorithm
     //read address from cache2
-    int replace = read_cache2(address);
-    srand((unsigned int)(time(NULL)));
-    i = group_position + (rand() % Cache_L1_Way_Size);
+    // int replace = read_cache2(address);
+    // srand((unsigned int)(time(NULL)));
+    // i = group_position + (rand() % Cache_L1_Way_Size);
 
     
-    memcpy(cache1[i].data,cache2[replace].data,Cache_L1_Block_Size);
+    // memcpy(cache1[i].data,cache2[replace].data,Cache_L1_Block_Size);
+
+    // cache1[i].valid = 1;
+    // cache1[i].tag = tag_id;
+    
+    // return i;
+
+    int pl = read_cache2(address);   
+    srand(time(0));
+    i = group_position + rand() % Cache_L1_Way_Size;
+    memcpy(cache1[i].data,cache2[pl].data,Cache_L1_Block_Size);
 
     cache1[i].valid = 1;
     cache1[i].tag = tag_id;
-    
     return i;
 }
 
@@ -80,15 +89,15 @@ int read_cache1(hwaddr_t address){
 //         }
 //     }
     
-//     // Find in Cache2
-//     int pl = read_cache2(addr);   
-//     srand(time(0));
-//     i = group + rand() % Cache_L1_Way_Size;
-//     memcpy(cache1[i].data,cache2[pl].data,Cache_L1_Block_Size);
+    // Find in Cache2
+    // int pl = read_cache2(addr);   
+    // srand(time(0));
+    // i = group + rand() % Cache_L1_Way_Size;
+    // memcpy(cache1[i].data,cache2[pl].data,Cache_L1_Block_Size);
 
-//     cache1[i].valid = 1;
-//     cache1[i].tag = tag;
-//     return i;
+    // cache1[i].valid = 1;
+    // cache1[i].tag = tag;
+    // return i;
 // }
 
 
