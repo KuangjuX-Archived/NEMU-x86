@@ -33,7 +33,7 @@ int read_cache1(hwaddr_t address){
     uint32_t i;
     uint32_t group_position = group_id * Cache_L1_Way_Size;
 
-    for(i=group_position+0; i < group_position + Cache_L1_Way_Size; i++){
+    for(i = group_position; i < group_position + Cache_L1_Way_Size; i++){
         if(cache1[i].tag==tag_id && cache1[i].valid==1){
             //HIT Cache_1
 #ifndef TEST
@@ -44,11 +44,10 @@ int read_cache1(hwaddr_t address){
     }
 
     //Fail to hit cache , replace with random algorithm
-    //srand((unsigned int)(time(NULL)));
-    srand(time(0));
+    srand((unsigned int)(time(NULL)));
     i = group_position + rand()%Cache_L1_Way_Size;
 
-    //read address from cache 1
+    //read address from cache2
     int replace = read_cache2(address);
     memcpy(cache1[i].data,cache2[replace].data,Cache_L1_Block_Size);
 
@@ -65,7 +64,7 @@ int read_cache2(hwaddr_t address){
     uint32_t block_start = (address >> Cache_L2_Block_Bit) << Cache_L2_Block_Bit;
 
     int i,group_position;
-    group_position = group_id*Cache_L2_Way_Size;
+    group_position = group_id * Cache_L2_Way_Size;
 
     for(i = group_position + 0; i < group_position + Cache_L2_Way_Size; i++){
         if(cache2[i].valid == 1 && cache2[i].tag==tag){
@@ -84,8 +83,7 @@ int read_cache2(hwaddr_t address){
     test_time += 200;
 #endif
 
-    //srand((unsigned int)time(NULL));
-    srand(time(0));
+    srand((unsigned int)time(NULL));
     i = (rand() % Cache_L2_Way_Size) + group_position;
 
     /*replace by reading memory*/
@@ -103,7 +101,7 @@ int read_cache2(hwaddr_t address){
     /*read from memory*/
     int k;
     for(k = 0; k < (Cache_L2_Block_Size / BURST_LEN); k++){
-        public_ddr3_read(block_start + k*BURST_LEN, cache2[i].data+ k * BURST_LEN);
+        public_ddr3_read(block_start + (k * BURST_LEN), cache2[i].data+ (k * BURST_LEN));
     }
 
     cache2[i].dirty = 0;
