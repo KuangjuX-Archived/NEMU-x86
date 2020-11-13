@@ -56,7 +56,7 @@ int read_cache1(hwaddr_t address){
     memcpy(cache1[i].data,cache2[replace].data,Cache_L1_Block_Size);
 
     cache1[i].valid = 1;
-    cache2[i].tag = tag_id;
+    cache1[i].tag = tag_id;
     
     return i;
 }
