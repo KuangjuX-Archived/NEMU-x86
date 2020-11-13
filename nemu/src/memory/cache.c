@@ -33,8 +33,8 @@ int read_cache1(hwaddr_t address){
     uint32_t group_id = (address >> Cache_L1_Block_Bit) & (Cache_L1_Block_Size-1);//mask
     uint32_t tag_id = (address >> (Cache_L1_Block_Bit+Cache_L1_Group_Bit));
 
-    int i;
-    int group_position = group_id * Cache_L1_Way_Size;
+    int i, group_position;
+    group_position = group_id * Cache_L1_Way_Size;
 
     for(i = group_position; i < group_position + Cache_L1_Way_Size; i++){
         if(cache1[i].tag==tag_id && cache1[i].valid==1){
