@@ -81,10 +81,6 @@ void public_ddr3_read(hwaddr_t addr, void* data){
 	ddr3_read(addr, data);
 }
 
-void ddr3_read_replace(hwaddr_t addr, void* data){
-	ddr3_read(addr, data);
-}
-
 static void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
 
@@ -110,10 +106,6 @@ static void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 }
 
 void public_ddr3_write(hwaddr_t addr, void *data, uint8_t *mask){
-	ddr3_write(addr, data, mask);
-}
-
-void ddr3_write_replace(hwaddr_t addr, void *data, uint8_t *mask){
 	ddr3_write(addr, data, mask);
 }
 

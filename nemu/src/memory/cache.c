@@ -10,9 +10,6 @@ void public_ddr3_write(hwaddr_t addr, void* data, uint8_t *mask);
 
 void dram_write(hwaddr_t addr, size_t len, uint32_t data);
 
-void ddr3_read_replace(hwaddr_t addr, void *data);
-void ddr3_write_replace(hwaddr_t addr, void *data, uint8_t *mask);
-
 void init_cache(){
     //initialize cache L1
     int i;
@@ -30,7 +27,6 @@ void init_cache(){
 
 int read_cache1(hwaddr_t address){
     
-
     uint32_t group_id = (address >> Cache_L1_Block_Bit) & (Cache_L1_Group_Size - 1);
     uint32_t tag_id = (address >> (Cache_L1_Block_Bit + Cache_L1_Group_Bit));
 
