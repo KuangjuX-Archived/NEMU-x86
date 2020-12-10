@@ -11,6 +11,7 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_pool();
 void init_ddr3();
+static void init_sreg();
 
 FILE *log_fp = NULL;
 
@@ -93,4 +94,12 @@ void restart() {
 
 	/*Initialize cache*/
 	init_cache();
+
+	/*Initialize segment register*/
+	init_sreg();
+}
+
+
+static void init_sreg(){
+	cpu.CR0.protect_enable = 0; //real mode
 }
