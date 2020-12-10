@@ -1,6 +1,7 @@
 #ifndef __X86_INC_CPU_H__
 #define __X86_INC_CPU_H__
 
+
 /* the Control Register 0 */
 typedef union CR0 {
 	struct {
