@@ -70,17 +70,17 @@ make_helper(mov_r2cr){
 }
 #endif
 
-// #if DATA_BYTE == 2
-// make_helper(mov_sreg2rm){
-// 	uint8_t modrm= instr_fetch(eip + 1,1);
-// 	uint8_t sreg_num = ((modrm >> 3) & 7); // reg
-// 	uint8_t reg_num = (modrm & 7); // r/m
-// 	cpu.segment_reg[sreg_num].selector = reg_w(reg_num);
+#if DATA_BYTE == 2
+make_helper(mov_sreg2rm){
+	uint8_t modrm= instr_fetch(eip + 1,1);
+	uint8_t sreg_num = ((modrm >> 3) & 7); // reg
+	uint8_t reg_num = (modrm & 7); // r/m
+	cpu.segment_reg[sreg_num].selector = reg_w(reg_num);
 	
-// 	sreg_load(sreg_num);
+	sreg_load(sreg_num);
 
-// 	print_asm("mov %s SREG[%u]",REG_NAME(reg_num),sreg_num);
-// 	return 2;
-// }
-// #endif
+	print_asm("mov %s SREG[%u]",REG_NAME(reg_num),sreg_num);
+	return 2;
+}
+#endif
 #include "cpu/exec/template-end.h"
