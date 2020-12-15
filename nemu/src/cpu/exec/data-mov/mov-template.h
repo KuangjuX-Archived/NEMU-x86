@@ -29,6 +29,7 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	print_asm("mov" str(SUFFIX) " 0x%x,%%%s", addr, REG_NAME(R_EAX));
 	return 5;
 }
+
 #if DATA_BYTE == 4
 make_helper(mov_cr2r){
 	uint8_t modrm= instr_fetch(eip + 1,1);
