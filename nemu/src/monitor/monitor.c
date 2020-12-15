@@ -101,7 +101,7 @@ void restart() {
 
 
 static void init_sreg(){
-	cpu.CR0.protect_enable = 1; //real mode
+	cpu.CR0.protect_enable = 0; //real mode
 
 	// initialize CS register
 	cpu.CS.base = 0;
