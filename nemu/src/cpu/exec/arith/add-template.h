@@ -7,6 +7,7 @@ static void do_execute () {
 	OPERAND_W(op_dest, ret);
 
 	/* TODO: Update EFLAGS. */
+    panic("123");
     cpu.ZF = !ret;
     cpu.SF = ret >> ((DATA_BYTE << 3) - 1);
     cpu.CF = (ret < op_dest -> val);
