@@ -54,7 +54,7 @@ clean: clean-cpp
 ##### some convinient rules #####
 
 # USERPROG := obj/testcase/add
-USERPROG := obj/testcase/mov
+# USERPROG := obj/testcase/mov
 # USERPROG := obj/testcase/matrix-mul
 # USERPROG := obj/testcase/if-else
 # USERPROG := obj/testcase/bit
@@ -91,7 +91,7 @@ USERPROG := obj/testcase/mov
 # USERPROG := obj/testcase/sum
 # USERPROG := obj/testcase/switch
 # USERPROG := obj/testcase/to-lower-case
-# USERPROG := obj/testcase/wanshu
+USERPROG := obj/testcase/wanshu
 ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
