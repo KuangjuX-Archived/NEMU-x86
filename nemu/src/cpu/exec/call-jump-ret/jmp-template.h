@@ -15,6 +15,7 @@ static void do_execute () {
 
 make_instr_helper(i)
 make_instr_helper(rm)
+
 #if DATA_BYTE == 4
 
 extern SegmentDescriptor *seg_desc;
