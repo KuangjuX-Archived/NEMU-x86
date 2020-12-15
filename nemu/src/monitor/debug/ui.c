@@ -216,6 +216,8 @@ typedef struct {
 	uint32_t args[4];
 }PartOfStackFrame ;
 static int cmd_bt(char* args){
+	uint8_t past_sreg = current_sreg;
+	current_sreg = R_SS;
 	if (args != NULL){
 		printf("Wrong Command!");
 		return 0;
@@ -242,6 +244,7 @@ static int cmd_bt(char* args){
 		}
 		addr = EBP.prev_ebp;
 	}
+	current_sreg = past_sreg;
 	return 0;
 }
 
