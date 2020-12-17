@@ -54,7 +54,7 @@ clean: clean-cpp
 ##### some convinient rules #####
 
 # USERPROG := obj/testcase/add
-USERPROG := obj/testcase/mov
+# USERPROG := obj/testcase/mov
 # USERPROG := obj/testcase/matrix-mul
 # USERPROG := obj/testcase/if-else
 # USERPROG := obj/testcase/bit
@@ -87,7 +87,7 @@ USERPROG := obj/testcase/mov
 # USERPROG := obj/testcase/string
 
 # USERPROG := obj/testcase/struct
-# USERPROG := obj/testcase/sub-longlong
+USERPROG := obj/testcase/sub-longlong
 # USERPROG := obj/testcase/sum
 # USERPROG := obj/testcase/switch
 # USERPROG := obj/testcase/to-lower-case
