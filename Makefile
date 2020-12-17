@@ -53,8 +53,8 @@ clean: clean-cpp
 
 ##### some convinient rules #####
 
-USERPROG := obj/testcase/add
-# USERPROG := obj/testcase/mov
+# USERPROG := obj/testcase/add
+USERPROG := obj/testcase/mov
 # USERPROG := obj/testcase/matrix-mul
 # USERPROG := obj/testcase/if-else
 # USERPROG := obj/testcase/bit
