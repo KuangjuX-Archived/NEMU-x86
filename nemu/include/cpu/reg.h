@@ -94,10 +94,12 @@ typedef struct {
 
 	union{
 		struct{
-			Segment_Reg CS,SS,DS,ES,FS,GS;
+			Segment_Reg segment_reg[6];
 		};
 
-		Segment_Reg segment_reg[6];
+		struct{
+			Segment_Reg CS,SS,DS,ES,FS,GS;
+		};
 	};
 
 	struct GDTR{
