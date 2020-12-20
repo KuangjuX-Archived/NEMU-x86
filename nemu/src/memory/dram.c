@@ -1,6 +1,7 @@
 #include "common.h"
 #include "burst.h"
 #include "misc.h"
+#include "memory/cache.h"
 
 /* Simulate the (main) behavor of DRAM.
  * Although this will lower the performace of NEMU, it makes
@@ -8,10 +9,12 @@
  * Note that cross addressing is not simulated.
  */
 
-#define COL_WIDTH 10
-#define ROW_WIDTH 10
-#define BANK_WIDTH 3
-#define RANK_WIDTH (27 - COL_WIDTH - ROW_WIDTH - BANK_WIDTH)
+/*This is the structer of ddr3, which I know about by reading CSAPP*/
+
+#define COL_WIDTH 10 //10
+#define ROW_WIDTH 10 //10
+#define BANK_WIDTH 3 //3
+#define RANK_WIDTH (27 - COL_WIDTH - ROW_WIDTH - BANK_WIDTH) //4
 
 typedef union {
 	struct {
@@ -29,7 +32,7 @@ typedef union {
 #define NR_BANK (1 << BANK_WIDTH)
 #define NR_RANK (1 << RANK_WIDTH)
 
-#define HW_MEM_SIZE (1 << (COL_WIDTH + ROW_WIDTH + BANK_WIDTH + RANK_WIDTH))
+#define HW_MEM_SIZE (1 << (COL_WIDTH + ROW_WIDTH + BANK_WIDTH + RANK_WIDTH)) //max address
 
 uint8_t dram[NR_RANK][NR_BANK][NR_ROW][NR_COL];
 uint8_t *hw_mem = (void *)dram;
@@ -61,6 +64,7 @@ static void ddr3_read(hwaddr_t addr, void *data) {
 	uint32_t row = temp.row;
 	uint32_t col = temp.col;
 
+	//if invalid read from buffer
 	if(!(rowbufs[rank][bank].valid && rowbufs[rank][bank].row_idx == row) ) {
 		/* read a row into row buffer */
 		memcpy(rowbufs[rank][bank].buf, dram[rank][bank][row], NR_COL);
@@ -68,8 +72,13 @@ static void ddr3_read(hwaddr_t addr, void *data) {
 		rowbufs[rank][bank].valid = true;
 	}
 
+	//else write data from ddr3
 	/* burst read */
 	memcpy(data, rowbufs[rank][bank].buf + col, BURST_LEN);
+}
+
+void public_ddr3_read(hwaddr_t addr, void* data){
+	ddr3_read(addr, data);
 }
 
 static void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
@@ -94,6 +103,10 @@ static void ddr3_write(hwaddr_t addr, void *data, uint8_t *mask) {
 
 	/* write back to dram */
 	memcpy(dram[rank][bank][row], rowbufs[rank][bank].buf, NR_COL);
+}
+
+void public_ddr3_write(hwaddr_t addr, void *data, uint8_t *mask){
+	ddr3_write(addr, data, mask);
 }
 
 uint32_t dram_read(hwaddr_t addr, size_t len) {

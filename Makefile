@@ -84,15 +84,15 @@ clean: clean-cpp
 # USERPROG := obj/testcase/select-sort
 # USERPROG := obj/testcase/shuixianhua
 
-USERPROG := obj/testcase/string
+# USERPROG := obj/testcase/string
 
 # USERPROG := obj/testcase/struct
 # USERPROG := obj/testcase/sub-longlong
 # USERPROG := obj/testcase/sum
-# USERPROG := obj/testcase/switch
+USERPROG := obj/testcase/switch
 # USERPROG := obj/testcase/to-lower-case
 # USERPROG := obj/testcase/wanshu
-ENTRY := $(kernel_BIN)
+ENTRY := $(USERPROG)
 
 entry: $(ENTRY)
 	objcopy -S -O binary $(ENTRY) entry

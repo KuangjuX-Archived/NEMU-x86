@@ -137,7 +137,10 @@ static int cmd_si(char *args){
 	while(args[0] == ' ')++args;	//trim
 	while('0' <= args[0] && args[0] <= '9') num = (num << 3) + (num << 1) + (args[0] & 15), ++args;
 	//get number
+	uint8_t past_sreg = current_sreg;
+	current_sreg = R_DS;
 	addr = expr(args, &suc);
+	current_sreg = past_sreg;
 	if(!suc) {
 		printf("\033[1;31mInvalid expression\n\033[0m");
 		return 0;
@@ -157,7 +160,10 @@ static int cmd_si(char *args){
 static int cmd_p(char *args) {
 	if(args == NULL) return 0;
 	bool suc;
+	uint8_t past_sreg = current_sreg;
+	current_sreg = R_DS;
 	uint32_t ans = expr(args, &suc);	//fix bugs
+	current_sreg = past_sreg;
 	if(!suc) {
 		printf("\033[1;31mInvalid expression\n\033[0m");
 		return 0;
@@ -210,6 +216,8 @@ typedef struct {
 	uint32_t args[4];
 }PartOfStackFrame ;
 static int cmd_bt(char* args){
+	uint8_t past_sreg = current_sreg;
+	current_sreg = R_SS;
 	if (args != NULL){
 		printf("Wrong Command!");
 		return 0;
@@ -236,6 +244,7 @@ static int cmd_bt(char* args){
 		}
 		addr = EBP.prev_ebp;
 	}
+	current_sreg = past_sreg;
 	return 0;
 }
 
