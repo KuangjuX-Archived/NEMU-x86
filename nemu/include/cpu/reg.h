@@ -94,10 +94,12 @@ typedef struct {
 
 	union{
 		struct{
-			Segment_Reg CS,SS,DS,ES,FS,GS;
+			Segment_Reg segment_reg[6];
 		};
 
-		Segment_Reg segment_reg[6];
+		struct{
+			Segment_Reg CS,SS,DS,ES,FS,GS;
+		};
 	};
 
 	struct GDTR{
@@ -163,6 +165,7 @@ typedef struct {
 
 SegmentDescriptor *seg_desc;
 uint8_t current_sreg;
+void sreg_load(uint8_t);
 
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
