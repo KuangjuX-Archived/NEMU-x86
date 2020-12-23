@@ -120,27 +120,27 @@ extern CPU_state cpu;
 typedef struct{
 	union{
 		struct{
-			uint32_t base1:		16;
-			uint32_t limit1:	16;
+			uint16_t limit1:		16;
+			uint16_t base1:			16;
 		};
 		uint32_t part1;
 	};
 
 	union{
 		struct{
-		uint32_t base2:		8;
-		uint32_t a:			1;
-		uint32_t type:		3;
-		uint32_t s:			1;
-		uint32_t dpl:		2;
-		uint32_t p:			1;
-		uint32_t limit2:	4;
-		uint32_t avl:		1;
-		uint32_t :			1;
-		uint32_t x:			1;
-		uint32_t g:			1;
-		uint32_t base3:		8;
-		};
+				uint32_t base2:		8;
+				uint32_t a:			1;
+				uint32_t type:		3;
+				uint32_t s:			1;
+				uint32_t dpl:		2;
+				uint32_t p:			1;
+				uint32_t limit2:	4;
+				uint32_t avl:		1;
+				uint32_t :			1;
+				uint32_t x:			1;
+				uint32_t g:			1;
+				uint32_t base3:		8;
+			};
 		uint32_t part2;
 		
 	};

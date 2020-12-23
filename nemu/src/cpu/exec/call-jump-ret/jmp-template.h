@@ -20,6 +20,7 @@ make_instr_helper(rm)
 
 extern SegmentDescriptor *seg_desc;
 SegmentDescriptor new_seg_desc;
+
 make_helper(ljmp){
     seg_desc = &new_seg_desc;
 
