@@ -102,6 +102,7 @@ void restart() {
 
 static void init_sreg(){
 	cpu.CR0.protect_enable = 0; //real mode
+	cpu.CR0.paging = 0; // page mode
 
 	// initialize CS register
 	cpu.CS.base = 0;
