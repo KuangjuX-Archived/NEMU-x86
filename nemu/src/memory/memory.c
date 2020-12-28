@@ -41,6 +41,44 @@ hwaddr_t page_translate(lnaddr_t addr){
 	}
 }
 
+// monitor page cmd
+hwaddr_t page_translate_additional(lnaddr_t addr,int* flag){
+	if (cpu.CR0.protect_enable == 1 && cpu.CR0.paging == 1){
+		//printf("%x\n",addr);
+		uint32_t dir = addr >> 22;
+		uint32_t page = (addr >> 12) & 0x3ff;
+		uint32_t offset = addr & 0xfff;
+
+		// get dir position
+		uint32_t dir_start = cpu.CR3.page_directory_base;
+		uint32_t dir_pos = (dir_start << 12) + (dir << 2);
+		PageDescriptor first_content;
+		first_content.val = hwaddr_read(dir_pos,4);
+		if (first_content.p == 0) {
+			*flag = 1;
+			return 0;
+		}
+
+		// get page position
+		uint32_t page_start = first_content.addr;
+		uint32_t page_pos = (page_start << 12) + (page << 2);
+		PageDescriptor second_content;
+		second_content.val =  hwaddr_read(page_pos,4);
+		if (second_content.p == 0){
+			*flag = 2;
+			return 0;
+		}
+
+		// get hwaddr
+		uint32_t addr_start = second_content.addr;
+		hwaddr_t hwaddr = (addr_start << 12) + offset;
+		return hwaddr;
+	}else {
+		return addr;
+	}
+}
+
+
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
