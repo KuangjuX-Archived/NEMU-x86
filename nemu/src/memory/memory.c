@@ -109,7 +109,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	// return hwaddr_read(addr, len);
-	assert(len == 1 || len == 2 || len ==4 );
+	// assert(len == 1 || len == 2 || len ==4 );
 	uint32_t now_offset = addr & 0xfff;
 	if(now_offset+len-1 > 0xfff){
 		// assert(0);
@@ -128,7 +128,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	// hwaddr_write(addr, len, data);
 
-	assert(len == 1 || len == 2 || len ==4 );
+	// assert(len == 1 || len == 2 || len ==4 );
 	uint32_t now_offset = addr & 0xfff;
 	if(now_offset + len - 1 > 0xfff){
 		size_t l = 0xfff - now_offset + 1;
