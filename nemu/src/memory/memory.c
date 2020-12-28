@@ -132,8 +132,8 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	uint32_t now_offset = addr & 0xfff;
 	if(now_offset + len - 1 > 0xfff){
 		size_t l = 0xfff - now_offset + 1;
-		lnaddr_write(addr, l, data & ((1<<(1<<3))-1));
-		lnaddr_write(addr+l, len -l, data>>(1<<3));
+		lnaddr_write(addr, l, data & ((1<<(l<<3))-1));
+		lnaddr_write(addr+l, len -l, data>>(l<<3));
 	}else{
 		hwaddr_t hwaddr = page_translate(addr);
 		hwaddr_write(hwaddr, len, data);
