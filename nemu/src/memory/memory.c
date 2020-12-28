@@ -1,5 +1,6 @@
 #include "common.h"
 #include "memory/cache.h"
+#include "memory/tlb.h"
 #include "burst.h"
 #include <string.h>
 #include "nemu.h"
@@ -9,7 +10,35 @@ uint32_t dram_read(hwaddr_t, size_t);
 void dram_write(hwaddr_t, size_t, uint32_t);
 
 hwaddr_t page_translate(lnaddr_t addr){
-	return addr;
+	if (cpu.CR0.protect_enable == 1 && cpu.CR0.paging == 1){
+		//printf("%x\n",addr);
+		uint32_t dir = addr >> 22;
+		uint32_t page = (addr >> 12) & 0x3ff;
+		uint32_t offset = addr & 0xfff;
+		//read TLB
+		int i = read_tlb(addr);
+		if (i != -1) return (tlb[i].page_num << 12) + offset;
+		// get dir position
+		uint32_t dir_start = cpu.CR3.page_directory_base;
+		uint32_t dir_pos = (dir_start << 12) + (dir << 2);
+		PageDescriptor first_content;
+		first_content.val = hwaddr_read(dir_pos,4);
+		//printf("dir:%x,con:%x\n",dir_pos,first_content.val);
+		Assert(first_content.p == 1,"Dir Cannot Be Used!");
+		// get page position
+		uint32_t page_start = first_content.addr;
+		uint32_t page_pos = (page_start << 12) + (page << 2);
+		PageDescriptor second_content;
+		second_content.val =  hwaddr_read(page_pos,4);
+		Assert(second_content.p == 1,"Page Cannot Be Used!");
+		// get hwaddr
+		uint32_t addr_start = second_content.addr;
+		hwaddr_t hwaddr = (addr_start << 12) + offset;
+		write_tlb(addr,hwaddr);
+		return hwaddr;
+	}else {
+		return addr;
+	}
 }
 
 /* Memory accessing interfaces */
