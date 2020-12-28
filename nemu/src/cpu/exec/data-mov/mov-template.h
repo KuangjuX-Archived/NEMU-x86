@@ -62,7 +62,7 @@ make_helper(mov_r2cr){
 			print_asm("mov %s CR0",REG_NAME(reg_num));
 			break;
 		case 3:
-			init_tlb();
+			// init_tlb();
 			cpu.CR3.val = reg_l(reg_num);
 			print_asm("mov %s CR3",REG_NAME(reg_num));
 			break;
