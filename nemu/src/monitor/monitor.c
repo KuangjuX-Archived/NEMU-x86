@@ -100,7 +100,8 @@ void restart() {
 	init_sreg();
 
 	/*Initialize TLB*/
-	init_tlb();
+	// init_tlb();
+	resetTLB();
 }
 
 
