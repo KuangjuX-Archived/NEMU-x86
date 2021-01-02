@@ -1,7 +1,7 @@
 #include "monitor/monitor.h"
 #include "cpu/helper.h"
-#include "monitor/watchpoint.h"
 #include <setjmp.h>
+#include "monitor/watchpoint.h"
 
 /* The assembly code of instructions executed is only output to the screen
  * when the number of instructions executed is less than this value.
@@ -74,22 +74,7 @@ void cpu_exec(volatile uint32_t n) {
 #endif
 
 		/* TODO: check watchpoints here. */
-
-		int flag = 0;
-		WP *head = getHead();
-		while(head!=NULL){
-			int ans = checkNode(head);
-			if(ans == -1){
-				printf("\033[1;31mwatchpoint %d : Invalid expression\n\033[0m", head->NO);flag=1;
-
-			}else if(ans == 0){
-				flag = 1;
-			}
-			
-			head = head->next;
-		}
-
-		if(flag) nemu_state =STOP;
+		if(check_wp() == true) nemu_state = STOP;
 
 
 #ifdef HAS_DEVICE

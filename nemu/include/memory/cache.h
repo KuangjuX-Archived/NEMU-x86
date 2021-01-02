@@ -1,62 +1,47 @@
-#ifndef __CACHE_H_
-#define __CACHE_H_
+#ifndef __CACHE_H__
+#define __CACHE_H__
 
 #include "common.h"
-/**
- * cache block 64B
- * cache 64KB
- * 8-way set associative
- * flag bit only depend on valid bit
- * The replacement algorithm uses a random method
- * write through
- * not write allocate**/
 
-#define Cache_L1_Size 64 * 1024
-#define Cache_L1_Block_Size 64
-#define Cache_L1_Way_Bit 3
-#define Cache_L1_Group_Bit 7
-#define Cache_L1_Block_Bit 6
-#define Cache_L1_Group_Size (1 << Cache_L1_Group_Bit)
-#define Cache_L1_Way_Size (1 << Cache_L1_Way_Bit)
+#define L1_CACHE_BLOCK_SIZE_BIT 6
+#define L1_CACHE_WAY_BIT 3
+#define L1_CACHE_SET_BIT 7
 
-#define Test
+#define L1_CACHE_BLOCK_SIZE (1<<L1_CACHE_BLOCK_SIZE_BIT)
+#define L1_CACHE_WAY_SIZE (1<<L1_CACHE_WAY_BIT)
+#define L1_CACHE_SET_SIZE (1<<L1_CACHE_SET_BIT)
 
-typedef struct{
-    uint8_t data[Cache_L1_Block_Size]; // 64B
+#define L2_CACHE_BLOCK_SIZE_BIT 6
+#define L2_CACHE_WAY_BIT 4
+#define L2_CACHE_SET_BIT 12
+
+#define L2_CACHE_BLOCK_SIZE (1<<L2_CACHE_BLOCK_SIZE_BIT)
+#define L2_CACHE_WAY_SIZE (1<<L2_CACHE_WAY_BIT)
+#define L2_CACHE_SET_SIZE (1<<L2_CACHE_SET_BIT)
+
+uint64_t MEMORY_TIME;
+
+typedef struct {
+    uint8_t data[L1_CACHE_BLOCK_SIZE];
     uint32_t tag;
     bool valid;
-}Cache_L1;
+} L1CacheBlock;
 
-Cache_L1 cache1[Cache_L1_Size/Cache_L1_Block_Size];
-
-
-
-#define Cache_L2_Size 4 * 1024 * 1024
-#define Cache_L2_Block_Size 64
-#define Cache_L2_Way_Bit 4
-#define Cache_L2_Group_Bit 12
-#define Cache_L2_Block_Bit 6
-#define Cache_L2_Group_Size (1 << Cache_L2_Group_Bit)
-#define Cache_L2_Way_Size (1 << Cache_L2_Way_Bit)
-
-typedef struct{
-    uint8_t data[Cache_L2_Block_Size]; // 64B
+typedef struct {
+    uint8_t data[L2_CACHE_BLOCK_SIZE];
     uint32_t tag;
-    bool valid;
-    bool dirty;
-}Cache_L2;
+    bool valid, dirty;
+} L2CacheBlock;
 
-Cache_L2 cache2[Cache_L2_Size/Cache_L2_Block_Size];
+L1CacheBlock l1_cache[L1_CACHE_SET_SIZE * L1_CACHE_WAY_SIZE];
+L2CacheBlock l2_cache[L2_CACHE_SET_SIZE * L2_CACHE_WAY_SIZE];
 
-#ifdef Test
-int test_time;
+void resetCache();
+int readCache(hwaddr_t addr);
+void writeCache(hwaddr_t addr, size_t len, uint32_t data);
+void addMemoryTime(uint32_t t);
+
+int readCache2(hwaddr_t addr);
+void writeCache2(hwaddr_t addr, size_t len, uint32_t data);
+
 #endif
-
-void init_cache();
-int read_cache1(hwaddr_t);
-void write_cache1(hwaddr_t, size_t, uint32_t);
-void write_cache2(hwaddr_t, size_t, uint32_t);
-int read_cache2(hwaddr_t);
-
-
-#endif 

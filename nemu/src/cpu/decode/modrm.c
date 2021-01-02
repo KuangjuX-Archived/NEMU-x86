@@ -83,13 +83,12 @@ int load_addr(swaddr_t eip, ModR_M *m, Operand *rm) {
 	return instr_len;
 }
 
-int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
+/* int dR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	ModR_M m;
 	m.val = instr_fetch(eip, 1);
 	reg->type = OP_TYPE_REG;
 	reg->reg = m.reg;
 
-	//3:register !3:memory
 	if(m.mod == 3) {
 		rm->type = OP_TYPE_REG;
 		rm->reg = m.R_M;
@@ -109,14 +108,48 @@ int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 		return 1;
 	}
 	else {
-		if(rm->reg == R_EBP){
-			current_sreg = R_SS;
-		}else{
-			current_sreg = R_DS;
-		}
-		
 		int instr_len = load_addr(eip, &m, rm);
 		rm->val = swaddr_read(rm->addr, rm->size);
+		return instr_len;
+	}
+} */
+
+int read_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
+	ModR_M m;
+	m.val = instr_fetch(eip, 1);
+	reg->type = OP_TYPE_REG;
+	reg->reg = m.reg;
+
+	if (m.mod == 3)
+	{
+		rm->type = OP_TYPE_REG;
+		rm->reg = m.R_M;
+		switch (rm->size)
+		{
+		case 1: rm->val = reg_b(m.R_M); break;
+		case 2: rm->val = reg_w(m.R_M); break;
+		case 4: rm->val = reg_l(m.R_M); break;
+		default: assert(0);
+		}
+#ifdef DEBUG
+		switch (rm->size)
+		{
+		case 1: sprintf(rm->str, "%%%s", regsb[m.R_M]); break;
+		case 2: sprintf(rm->str, "%%%s", regsw[m.R_M]); break;
+		case 4: sprintf(rm->str, "%%%s", regsl[m.R_M]); break;
+		}
+#endif
+	return 1;
+	}
+	else {
+		int instr_len = load_addr(eip, &m, rm);
+		if (rm->reg == R_ESP || rm->reg == R_EBP)
+		{
+			rm->sreg = R_SS;
+		} else {
+			rm->sreg = R_DS;
+		}
+		rm->val = swaddr_read(rm->addr, rm->size, rm->sreg);
 		return instr_len;
 	}
 }
@@ -127,28 +160,36 @@ int read_no_ModR_M(swaddr_t eip, Operand *rm, Operand *reg) {
 	reg->type = OP_TYPE_REG;
 	reg->reg = m.reg;
 
-	if(m.mod == 3) {
+	if (m.mod == 3)
+	{
 		rm->type = OP_TYPE_REG;
 		rm->reg = m.R_M;
-		switch(rm->size) {
-			case 1: rm->val = reg_b(m.R_M); break;
-			case 2: rm->val = reg_w(m.R_M); break;
-			case 4: rm->val = reg_l(m.R_M); break;
-			default: assert(0);
+		switch (rm->size)
+		{
+		case 1: rm->val = reg_b(m.R_M); break;
+		case 2: rm->val = reg_w(m.R_M); break;
+		case 4: rm->val = reg_l(m.R_M); break;
+		default: assert(0);
 		}
 #ifdef DEBUG
-		switch(rm->size) {
-			case 1: sprintf(rm->str, "%%%s", regsb[m.R_M]); break;
-			case 2: sprintf(rm->str, "%%%s", regsw[m.R_M]); break;
-			case 4: sprintf(rm->str, "%%%s", regsl[m.R_M]); break;
+		switch (rm->size)
+		{
+		case 1: sprintf(rm->str, "%%%s", regsb[m.R_M]); break;
+		case 2: sprintf(rm->str, "%%%s", regsw[m.R_M]); break;
+		case 4: sprintf(rm->str, "%%%s", regsl[m.R_M]); break;
 		}
 #endif
-		return 1;
+	return 1;
 	}
 	else {
 		int instr_len = load_addr(eip, &m, rm);
-		//rm->val = swaddr_read(rm->addr, rm->size);
+		if (rm->reg == R_ESP || rm->reg == R_EBP)
+		{
+			rm->sreg = R_SS;
+		} else {
+			rm->sreg = R_DS;
+		}
+		// rm->val = swaddr_read(rm->addr, rm->size, rm->sreg);
 		return instr_len;
 	}
 }
-

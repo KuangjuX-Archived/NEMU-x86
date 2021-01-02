@@ -3,9 +3,13 @@
 
 #include "cpu/helper.h"
 
-make_helper(updateCPU_b);
-make_helper(updateCPU_w);
-make_helper(updateCPU_l);
+make_helper(update_b);
+make_helper(update_w);
+make_helper(update_l);
+
+make_helper(decode_n_b);
+make_helper(decode_n_w);
+make_helper(decode_n_l);
 make_helper(decode_r_b);
 make_helper(decode_r_w);
 make_helper(decode_r_l);
@@ -39,13 +43,9 @@ make_helper(decode_r2rm_l);
 make_helper(decode_rm2r_b);
 make_helper(decode_rm2r_w);
 make_helper(decode_rm2r_l);
-// make_helper(decode_no_rm2r_b);
-// make_helper(decode_no_rm2r_w);
-// make_helper(decode_no_rm2r_l);
 make_helper(decode_rm2a_b);
 make_helper(decode_rm2a_w);
 make_helper(decode_rm2a_l);
-
 
 make_helper(decode_rm_1_b);
 make_helper(decode_rm_1_w);

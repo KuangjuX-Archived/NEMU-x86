@@ -4,19 +4,25 @@
 
 #define decode_r_internal concat3(decode_r_, SUFFIX, _internal)
 #define decode_rm_internal concat3(decode_rm_, SUFFIX, _internal)
-#define decode_no_rm_internal concat3(decode_no_rm_, SUFFIX, _internal)
 #define decode_i concat(decode_i_, SUFFIX)
+#define decode_n concat(decode_n_, SUFFIX)
 #define decode_a concat(decode_a_, SUFFIX)
 #define decode_r2rm concat(decode_r2rm_, SUFFIX)
 
-make_helper(concat(updateCPU_, SUFFIX)) {
+make_helper(concat(update_, SUFFIX)) {
 	int len = (DATA_BYTE << 3) - 1;
-	cpu.SF = eip >> len;
-    cpu.ZF = !eip;
-    eip ^= eip >> 4;
+	cpu.SF = eip>>len;
+	cpu.ZF = !eip;
+	eip ^= eip >> 4;
 	eip ^= eip >> 2;
 	eip ^= eip >> 1;
-	cpu.PF = !(eip & 1);
+	cpu.PF = !(eip&1);
+	return 0;
+}
+
+
+make_helper(concat(decode_n_, SUFFIX)) {
+	op_src->type = OP_TYPE_NO;
 	return 0;
 }
 
@@ -37,6 +43,7 @@ make_helper(concat(decode_i_, SUFFIX)) {
 /* sign immediate */
 make_helper(concat(decode_si_, SUFFIX)) {
 	op_src->type = OP_TYPE_IMM;
+	op_src->simm = (DATA_TYPE_S)instr_fetch(eip, DATA_BYTE);
 
 	/* TODO: Use instr_fetch() to read `DATA_BYTE' bytes of memory pointed
 	 * by `eip'. Interpret the result as an signed immediate, and assign
@@ -44,8 +51,8 @@ make_helper(concat(decode_si_, SUFFIX)) {
 	 *
 	op_src->simm = ???
 	 */
-	op_src->type = OP_TYPE_IMM;
-	op_src->simm = (DATA_TYPE_S)instr_fetch(eip, DATA_BYTE);
+	// panic("please implement me");
+
 	op_src->val = op_src->simm;
 
 #ifdef DEBUG
@@ -103,23 +110,6 @@ make_helper(concat(decode_r2rm_, SUFFIX)) {
 make_helper(concat(decode_rm2r_, SUFFIX)) {
 	return decode_rm_internal(eip, op_src, op_dest);
 }
-
-/*------------------------------------------------------------------------------------*/
-static int concat3(decode_no_rm_, SUFFIX, _internal) (swaddr_t eip, Operand *rm, Operand *reg) {
-	rm->size = DATA_BYTE;
-	int len = read_no_ModR_M(eip, rm, reg);
-	reg->val = REG(reg->reg);
-
-#ifdef DEBUG
-	snprintf(reg->str, OP_STR_SIZE, "%%%s", REG_NAME(reg->reg));
-#endif
-	return len;
-}
-
-make_helper(concat(decode_no_rm2r_, SUFFIX)) {
-	return decode_no_rm_internal(eip, op_src, op_dest);
-}
-/*------------------------------------------------------------------------------------*/
 
 
 /* AL <- Ib
@@ -210,7 +200,7 @@ make_helper(concat(decode_rm_imm_, SUFFIX)) {
 
 void concat(write_operand_, SUFFIX) (Operand *op, DATA_TYPE src) {
 	if(op->type == OP_TYPE_REG) { REG(op->reg) = src; }
-	else if(op->type == OP_TYPE_MEM) { swaddr_write(op->addr, op->size, src); }
+	else if(op->type == OP_TYPE_MEM) { swaddr_write(op->addr, op->size, src, op->sreg); }
 	else { assert(0); }
 }
 

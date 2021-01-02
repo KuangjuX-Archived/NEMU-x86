@@ -5,7 +5,6 @@
 
 static WP wp_pool[NR_WP];
 static WP *head, *free_;
-static int ID = 0;
 
 void init_wp_pool() {
 	int i;
@@ -19,68 +18,131 @@ void init_wp_pool() {
 	free_ = wp_pool;
 }
 
-WP* new_wp() {
-	assert(free_ != NULL);
-	WP* ans = free_;
-	free_ = ans->next;
-	ans->next = NULL;
-	return ans;
-}
-
-void wp_free(WP *wp) {
-	wp->next = free_;
-	free_ = wp;
-}
-
-WP* getHead() {
-	return head;
-}
-
-int insertExpr(char *ex) {
-	bool suc;
-	uint32_t ans = expr(ex, &suc);
-	if(!suc) return -1;
-	WP* nd = new_wp();
-	nd->NO = ++ID;
-	nd->ans = ans;
-	strcpy(nd->expr, ex);
-	nd->next = head;
-	head = nd;
-	return ID;
-}
-
-int removeNode(int id) {
-	if(head == NULL) return 0;
-	if(head->NO == id){
-		WP* tmp = head;
-		head = head->next;
-		wp_free(tmp);
-		return 1;
-	}
-	WP* now = head;
-	while(now->next != NULL) {
-		if(now->next->NO == id) {
-			WP* tmp = now->next;
-			now->next = now->next->next;
-			wp_free(tmp);
-			return 1;
-		}
-		now = now->next;
-	}
-	return 0;
-}
-
-int checkNode(WP *nd) {
-	if(nd == NULL) return 1;
-	bool suc;
-	uint32_t ans = expr(nd->expr, &suc);
-	if(!suc) return -1;	//fail
-	if(ans == nd->ans) return 1;
-	printf("\033[1;31mIn watchpoint %d, last value is 0x%x, but now is 0x%x\n\033[0m", nd->NO, nd->ans, ans);
-	//print the value of this expression
-	return 0;
-}
-
 /* TODO: Implement the functionality of watchpoint */
+WP* new_wp() {
+	WP *new, *p;
+	new = free_;
+	free_ = free_->next;
+	new->next = NULL;
+	p = head;
+	if (p == NULL)
+	{
+		head = new;
+		p = head;
+	}
+	else 
+	{
+		while (p->next != NULL)
+		{
+			p = p->next;
+		}
+		p->next = new;
+		
+	}
+	return new;
+}
 
+void free_wp(WP *wp) {
+	WP *f, *p;
+	p = free_;
+	if (p == NULL)
+	{
+		free_ = wp;
+		p = free_;
+	}
+	else 
+	{
+		while (p->next != NULL)
+		{
+			p = p->next;
+		}
+		p->next = wp;
+		printf("watch-point %d is released.\n", wp->NO);
+		
+	}
 
+	f = head;
+	if (head == NULL)
+	{
+		printf("watch point pool is empty!\n");
+		assert(0);
+	} 
+	
+	if (head->NO == wp->NO)
+	{
+		head = head->next;
+	}
+	else
+	{
+		while (f->next != NULL && f->NO != wp->NO)
+		{
+			f = f->next;
+		}
+		if (f->next == NULL && f->NO == wp->NO)
+		{
+			printf("something goes wrong!");
+		}
+		else if (f->next->NO == wp->NO)
+		{
+			f->next = f->next->next;
+			
+		}
+		else assert(0);
+	}
+
+	wp->next = NULL;
+	wp->value = 0;
+	
+}
+
+bool check_wp() {
+	WP *f;
+	f = head;
+	bool key = false;
+	bool suc;
+	while (f != NULL)
+	{
+		uint32_t tmp_expr = expr(f->expr, &suc);
+		if (suc == false) 
+		{
+			printf("evaluation failed!\n");
+			assert(0);
+		}
+
+		if (tmp_expr != f->value)
+		{
+			
+			key = true;
+			printf("Watch-point %d: %s\n", f->NO, f->expr);
+			printf("Origin value: %d\n", f->value);
+			printf("New value: %d\n", tmp_expr);
+		}
+		f = f->next;
+		
+		
+	}
+	return key;
+	
+}
+
+void delete_wp(int num) {
+	WP *f;
+	f = &wp_pool[num];
+	free_wp(f);
+}
+
+void info_wp() {
+	WP *f;
+	f = head;
+	if (f == NULL)
+	{
+		printf("There is no watch-point.");
+	}
+	
+	while (f != NULL)
+	{
+		printf("Watch-point %d: %s = %d\n", f->NO, f->expr, f->value);
+		f = f->next;
+	}
+	
+}

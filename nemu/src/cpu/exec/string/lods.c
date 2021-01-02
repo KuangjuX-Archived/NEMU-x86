@@ -12,4 +12,4 @@
 #include "lods-template.h"
 #undef DATA_BYTE
 
-make_helper_v(lods)
+make_helper_v(lods_n)

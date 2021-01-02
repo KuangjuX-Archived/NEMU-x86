@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-//define a cpu
 CPU_state cpu;
 
 const char *regsl[] = {"eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi"};
@@ -41,37 +40,5 @@ void reg_test() {
 	assert(sample[R_EDI] == cpu.edi);
 
 	assert(eip_sample == cpu.eip);
-}
-
-void sreg_load(uint8_t sreg_num){
-	Assert(cpu.CR0.protect_enable,"Not In Protect Mode!");
-
-	uint16_t idx = cpu.segment_reg[sreg_num].selector >> 3;//index of sreg
-
-	Assert((idx << 3) <= cpu.GDTR.limit,"Segement Selector Is Out Of The Limit!");
-
-	lnaddr_t chart_addr = cpu.GDTR.base + (idx << 3);//chart addr
-	seg_desc -> part1 = lnaddr_read(chart_addr, 4);
-	seg_desc -> part2 = lnaddr_read(chart_addr + 4, 4);
-
-	Assert(seg_desc -> p == 1, "Segement Not Exist!");//p bit, whether sreg_desc exists
-	
-	
-	uint32_t bases = 0;
-	
-	bases += ((uint32_t)seg_desc -> base1);
-	
-	bases += ((uint32_t)seg_desc -> base2)<< 16;
-	
-	bases += ((uint32_t)seg_desc -> base3) << 24;
-	cpu.segment_reg[sreg_num].base = bases;
-	//printf("%p\n",&(cpu.sreg[sreg_num].base));
-
-	uint32_t limits = 0;
-	limits += ((uint32_t)seg_desc -> limit1);
-	limits += ((uint32_t)seg_desc -> limit2) << 16;
-	limits += ((uint32_t)0xfff) << 24;
-	cpu.segment_reg[sreg_num].limit = limits;
-	if (seg_desc -> g == 1) cpu.segment_reg[sreg_num].limit <<= 12;//G = 0, unit = 1B;G = 1, unit = 4KB
 }
 
